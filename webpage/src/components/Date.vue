@@ -1,7 +1,9 @@
 <template>
-    <div style="">
-        <div id="time-now">{{ timeNow }}</div>
-        <div id="date-now">{{ dateNow }}</div>
+    <div>
+        <n-el tag="div" id="time-now">{{ timeNow }}
+        </n-el>
+        <n-el tag="div" id="date-now">{{ dateNow }}
+        </n-el>
     </div>
 </template>
 <script setup>
@@ -47,9 +49,9 @@ onBeforeUnmount(() => {
     top: 5%;
     left: 50%;
     font-size: 4rem;
-    color: #fff;
     transform: translate(-50%, -50%);
     user-select: none;
+    color: var(--base-color)
 }
 
 #date-now {
@@ -57,8 +59,8 @@ onBeforeUnmount(() => {
     top: 10%;
     left: 50%;
     font-size: 1rem;
-    color: #fff;
     transform: translate(-50%, -50%);
     user-select: none;
+    color: var(--base-color)
 }
 </style>

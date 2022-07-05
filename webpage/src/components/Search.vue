@@ -1,69 +1,142 @@
 <template>
     <div>
-        <n-config-provider :theme-overrides="themeOverrides">
-            <div class="search-box">
-                <n-input type="text" placeholder="" v-model="searchKeyword" @keyup.enter="search" autosize clearable
-                    style="min-width: 35%;height: 2.5rem;">
+        <div class="search-box">
+            <n-dropdown :show="showSearchSuggest" :options="searchSuggest" placement="bottom-start"
+                :on-select="handleSuggestSelected" @clickoutside="showSearchSuggest = false" style="width: 35vw;">
+                <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange"
+                    @focus="showSearchSuggest = searchSuggest.length > 0 ? true : false" @keyup.enter="search" clearable
+                    style="max-width: 35%;min-width: 35vw;height: 2.5rem;">
                     <template #prefix>
-                        <n-dropdown trigger="hover" :options="searchWays">
-                            <n-avatar :src="baidu" round size="small" />
+                        <n-dropdown :render-label="renderButton" :render-icon="null" trigger="hover"
+                            :options="searchWays" :on-select="handleSearchSelected">
+                            <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />
                         </n-dropdown>
                     </template>
                     <template #suffix>
-                        <n-icon>
+                        <n-icon @click="search">
                             <search-icon />
                         </n-icon>
                     </template>
                 </n-input>
-            </div>
-        </n-config-provider>
-
+            </n-dropdown>
+        </div>
     </div>
 </template>
 <script setup>
 import { ref, h } from "vue";
+import { jsonp } from 'vue-jsonp';
 import { NConfigProvider, NAvatar } from 'naive-ui'
 import { Search as SearchIcon } from '@vicons/ionicons5'
+import axios from 'axios'
 import baidu from '@/assets/search/baidu.png'
 import zhihu from '@/assets/search/zhihu.png'
 import bilibili from '@/assets/search/bilibili.png'
 import bing from '@/assets/search/bing.png'
-const themeOverrides = {
-    Input: {
-        border: "none",
-        borderHover: "0.5px solid rgba(52, 52, 56, 0.5)",
-        borderFocus: "0.5px solid rgba(52, 52, 56, 0.5)",
-        boxShadowFocus: "none",
-        color: "rgba(255, 255, 255, 0.5)",
-    }
+import google from '@/assets/search/google.png'
+const searchKeyword = ref(null)
+const searchSuggest = ref([])
+const showSearchSuggest = ref(false)
+//渲染选择搜索引擎的按钮
+const renderButton = (option) => {
+    return h(NAvatar, {
+        src: option.label,
+        size: 'small',
+        color: "rgba(255, 255, 255, 0)",
+        style: {
+            marginTop: '3px',
+        }
+    })
 }
-const renderButton = (url) => {
-    return () => {
-        h(NAvatar, {
-            src: url,
-            round: true,
-            size: 'small'
-        })
-    }
-}
+//搜索引擎列表
 const searchWays = ref([{
     key: 'baidu',
-    type: 'render',
-    render: renderButton(baidu)
+    label: baidu,
+}, {
+    key: 'google',
+    label: google,
 }, {
     key: 'bing',
-    type: 'render',
-    render: renderButton(bing)
+    label: bing,
 }, {
     key: 'zhihu',
-    type: 'render',
-    render: renderButton(zhihu)
-}
-    , {
+    label: zhihu,
+}, {
     key: 'bilibili',
-    type: 'render',
-    render: renderButton(bilibili)
+    label: bilibili,
 }])
+//选择搜索引擎
+const selectedList = ref({
+    baidu: {
+        src: baidu,
+        url: 'https://www.baidu.com/s?wd=',
+    },
+    google: {
+        src: google,
+        url: 'https://www.google.com/search?q=',
+    },
+    bing: {
+        src: bing,
+        url: 'https://www.bing.com/search?q=',
+    },
+    zhihu: {
+        src: zhihu,
+        url: 'https://www.zhihu.com/search?type=content&q=',
+    },
+    bilibili: {
+        src: bilibili,
+        url: 'https://www.bilibili.com/search?keyword=',
+    }
+})
+//选中的搜索引擎
+const selectedNow = ref({
+    src: baidu,
+    url: 'https://www.baidu.com/s?cb=window.bdsug.sug&wd='
+})
+//处理选择事件
+const handleSearchSelected = (key) => {
+    selectedNow.value = selectedList.value[key]
+}
+
+//输入变化时更新下拉框内容
+const handleInputChange = () => {
+    if (searchKeyword.value == '') {
+        searchSuggest.value.length = 0
+        showSearchSuggest.value = false
+    }
+    jsonp('http://suggestion.baidu.com/su', {
+        callbackQuery: 'cb',
+        callbackName: 'callback',
+        wd: searchKeyword.value,
+        age: 100
+    }).then((res) => {
+        searchSuggest.value.length = 0
+        for (let i = 0; i < res.s.length; i++) {
+            searchSuggest.value.push({
+                key: i,
+                label: res.s[i]
+            })
+        }
+        if (searchSuggest.value.length > 0) {
+            showSearchSuggest.value = true
+        } else {
+            showSearchSuggest.value = false
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+const callback = (res) => {
+    console.log(res)
+}
+//选择下拉框内容时搜索
+const handleSuggestSelected = (key, option) => {
+    searchKeyword.value = option.label
+    search()
+}
+//搜索
+const search = () => {
+    window.open(selectedNow.value.url + searchKeyword.value)
+}
 </script>
 <style lang="less" scoped>
 .search-box {
@@ -77,7 +150,13 @@ const searchWays = ref([{
     text-align: left;
 
     .n-input {
-        border: none !important;
+        .n-icon {
+            cursor: pointer;
+        }
+
+        .n-avatar {
+            cursor: default;
+        }
     }
 }
 </style>

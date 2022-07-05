@@ -2,7 +2,7 @@
     <div>
         <div id="background">
             <img :src="bgImg" alt="背景图片加载失败">
-            <div id="bg-mask"></div>
+            <n-el tag="div" id="bg-mask"></n-el>
         </div>
         <div id="content">
             <Date></Date>
@@ -49,7 +49,7 @@ onMounted(() => {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0);
+        background: var(--body-color);
 
     }
 }
