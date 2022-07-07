@@ -2,17 +2,17 @@
     <div>
         <div class="search-box">
             <n-dropdown :show="showSearchSuggest" :options="searchSuggest" placement="bottom-start"
-                :on-select="handleSuggestSelected" @clickoutside="showSearchSuggest = false" style="width: 35vw;">
+                :on-select="handleSuggestSelected" @clickoutside="showSearchSuggest = false" style="width: 35rem;">
                 <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange"
-                    @focus="showSearchSuggest = searchSuggest.length > 0 ? true : false" @keyup.enter="search" clearable
-                    style="max-width: 35%;min-width: 35vw;height: 2.5rem;">
+                    @focus="handleInputFocus" @blur="isSearchIconShow = false" @keyup.enter="search" clearable
+                    style="max-width: 35rem;min-width: 35rem;height: 2.5rem;">
                     <template #prefix>
                         <n-dropdown :render-label="renderButton" :render-icon="null" trigger="hover"
                             :options="searchWays" :on-select="handleSearchSelected">
                             <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />
                         </n-dropdown>
                     </template>
-                    <template #suffix>
+                    <template #suffix v-if="isSearchIconShow">
                         <n-icon @click="search">
                             <search-icon />
                         </n-icon>
@@ -36,6 +36,7 @@ import google from '@/assets/search/google.png'
 const searchKeyword = ref(null)
 const searchSuggest = ref([])
 const showSearchSuggest = ref(false)
+const isSearchIconShow = ref(false)
 //渲染选择搜索引擎的按钮
 const renderButton = (option) => {
     return h(NAvatar, {
@@ -97,6 +98,11 @@ const handleSearchSelected = (key) => {
     selectedNow.value = selectedList.value[key]
 }
 
+const handleInputFocus = () => {
+    isSearchIconShow.value = true
+    showSearchSuggest.value = searchSuggest.value.length > 0 ? true : false
+}
+
 //输入变化时更新下拉框内容
 const handleInputChange = () => {
     if (searchKeyword.value == '') {
@@ -141,7 +147,7 @@ const search = () => {
 <style lang="less" scoped>
 .search-box {
     position: absolute;
-    top: 13%;
+    top: 6rem;
     width: 100%;
     height: 3rem;
     display: flex;

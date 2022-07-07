@@ -46,7 +46,7 @@ onBeforeUnmount(() => {
 <style lang="less" scoped>
 #time-now {
     position: absolute;
-    top: 5%;
+    top: 2.5rem;
     left: 50%;
     font-size: 4rem;
     transform: translate(-50%, -50%);
@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
 
 #date-now {
     position: absolute;
-    top: 10%;
+    top: 5rem;
     left: 50%;
     font-size: 1rem;
     transform: translate(-50%, -50%);

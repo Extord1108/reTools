@@ -20,8 +20,20 @@ onMounted(() => {
     //当前屏幕大小
     const width = document.documentElement.clientWidth;
     const height = document.documentElement.clientHeight;
-    //随机生成壁纸
-    bgImg.value = 'https://picsum.photos/id/' + Math.floor(Math.random() * 1000) + '/' + width + '/' + height
+    //随机生成1-3的数字
+    const random = Math.floor(Math.random() * 3) + 1;
+    //根据随机数选择背景图片
+    switch (random) {
+        case 1:
+            bgImg.value = `https://picsum.photos/${width}/${height}/?random`;
+            break;
+        case 2:
+            bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
+            break;
+        case 3:
+            bgImg.value = 'https://picsum.photos/id/' + Math.floor(Math.random() * 1000) + '/' + width + '/' + height
+            break;
+    }
 })
 
 </script>
