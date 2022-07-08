@@ -5,11 +5,17 @@
 </template>
 <script setup>
 import { NConfigProvider } from 'naive-ui'
+import { useStore } from 'vuex'
+import { computed, onMounted, ref, watch } from 'vue'
+const store = useStore()
 //自定义主题
-const themeOverrides = {
+const themeOverrides = ref({
   common: {
     baseColor: "rgba(255, 255, 255, 1)",
-    bodyColor: "rgba(0, 0, 0, 0.2)",
+    bodyColor: "rgba(0, 0, 0,0.2)",
+    panelColor: "rgba(255, 255, 255, 0.1)",
+    panelShadow: "5px 0 5px rgba(200, 200, 200, 0.5)",
+    bodyAmbiguity: "0px",
   },
   Input: {
     border: "none",
@@ -20,8 +26,48 @@ const themeOverrides = {
   },
   Dropdown: {
     color: "rgba(255, 255, 255, 0.5)",
+  },
+  Button: {
+    textColorTertiary: "rgba(240, 240, 240, 1)",
+    textColorPressed: "rgba(240, 240, 240, 1)",
+    textColorHover: "rgba(200, 200, 200, 1)",
+    textColorFocus: "rgba(240, 240, 240, 1)",
+    borderColor: "rgba(240, 240, 240, 1)",
+    borderHover: "1px solid rgb(200,200,200)",
+    borderPressed: "1px solid rgb(240, 240, 240)",
+    borderFocus: "1px solid rgb(240, 240, 240)",
+    rippleColor: "rgb(240, 240, 240)"
+  },
+  Divider: {
+    color: "rgba(255, 255, 255, 0.5)",
+  },
+  Typography: {
+    textColor: "rgba(240, 240, 240, 1)",
+    headerBarColor: "rgba(240, 240, 240, 1)",
+  },
+  Slider: {
+    fillColor: "rgb(128, 128, 128)",
+    fillColorHover: "rgb(128, 128, 128)",
   }
-}
+})
+
+const opacity = computed(() => {
+  return store.getters.getBgOpacity
+})
+
+watch(opacity, (val) => {
+  themeOverrides.value.common.bodyColor = `rgba(0, 0, 0,${val})`
+  localStorage.setItem('bgOpacity', val)
+})
+
+const ambiguity = computed(() => {
+  return store.getters.getAmbiguity
+})
+
+watch(ambiguity, (val) => {
+  themeOverrides.value.common.bodyAmbiguity = val * 20 + "px"
+  localStorage.setItem('ambiguity', val)
+})
 
 </script>
 <style lang="less">

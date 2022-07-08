@@ -1,8 +1,20 @@
 <template>
     <div>
+        <div id="avatar">
+            <n-aratar round @click="showPanel">
+                <n-icon size="40" color="#ffffff80">
+                    <person-circle-sharp />
+                </n-icon>
+            </n-aratar>
+        </div>
+        <div id="panel">
+            <Panel :isPanelShow="isPanelShow" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
+        </div>
         <div id="background">
             <img :src="bgImg" alt="背景图片加载失败">
-            <n-el tag="div" id="bg-mask"></n-el>
+            <div>
+                <n-el tag="div" id="bg-mask"></n-el>
+            </div>
         </div>
         <div id="content">
             <Date></Date>
@@ -11,12 +23,20 @@
     </div>
 </template>
 <script setup>
-import { onMounted, ref } from "vue";
+import { PersonCircleSharp } from "@vicons/ionicons5"
+import { NAvatar } from 'naive-ui'
+import { onMounted, ref, reactive } from "vue";
 import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
+import Panel from "@/components/Panel.vue";
 const bgImg = ref('')
+const isPanelShow = reactive({ value: false })
 
-onMounted(() => {
+const showPanel = () => {
+    isPanelShow.value = !isPanelShow.value
+}
+
+const getBgImg = () => {
     //当前屏幕大小
     const width = document.documentElement.clientWidth;
     const height = document.documentElement.clientHeight;
@@ -34,10 +54,27 @@ onMounted(() => {
             bgImg.value = 'https://picsum.photos/id/' + Math.floor(Math.random() * 1000) + '/' + width + '/' + height
             break;
     }
+}
+
+onMounted(() => {
+    getBgImg()
 })
 
 </script>
 <style lang="less" scoped>
+#avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#avatar:hover {
+    cursor: pointer;
+}
+
 #background {
     height: 100vh;
     width: 100vw;
@@ -62,7 +99,7 @@ onMounted(() => {
         width: 100%;
         height: 100%;
         background: var(--body-color);
-
+        backdrop-filter: blur(var(--body-ambiguity));
     }
 }
 
