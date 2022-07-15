@@ -1,13 +1,20 @@
 module.exports = {
     devServer: {
         proxy: {
-            '/baiduapi': {
-                target: 'http://suggestion.baidu.com/su',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/baiduapi': ''
-                }
-            }
+            '/test': {
+                target: 'http://localhost:8081',
+                pathRewrite: { "^/test": "" },
+                ws: true,
+                changeOrigin: true
+            },
+            '/api': {
+                target: 'http://localhost:4000',
+                pathRewrite: { "^/api": "" },
+                ws: true,
+                changeOrigin: true
+            },
         }
     }
-}
+
+};
+
