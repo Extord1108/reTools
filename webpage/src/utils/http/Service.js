@@ -6,24 +6,30 @@ const ConfigBaseURL = '/test' //默认路径
 export const Service = axios.create({
     timeout: 10000, // 请求超时时间
     baseURL: ConfigBaseURL,
+    withCredentials: true, // 是否允许带cookie这些
 })
 // 添加请求拦截器
 Service.interceptors.request.use(
-    function (error) {
-        // 对请求错误做些什么
-        return Promise.reject(error)
-    }
+
 )
 // 添加响应拦截器
 Service.interceptors.response.use(response => {
     const data = response.data
-    console.log(data)
+    const status = response.status
+    console.log(response)
+    console.log(status)
     if (data) {
         return Promise.resolve(data)
-    } else {
+    }
+    else {
         // message.info(data.msg);
         return Promise.reject(data)
     }
 }, error => {
+    if (error.response.status == 401) {
+        window.localStorage.removeItem('username');
+        window.location.reload();
+        return Promise.reject(error)
+    }
     return Promise.reject(error)
 })

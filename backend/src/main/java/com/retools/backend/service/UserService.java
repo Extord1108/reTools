@@ -23,12 +23,10 @@ public class UserService {
         for (User u : userList) {
             if (u.getEmail()!=null && u.getEmail().equals(user.getEmail())) {
                 return 2;
-            }else if(u.getPhone()!=null && u.getPhone().equals(user.getPhone())){
-                return 3;
             }
         }
         if(code==null)
-            return 4;
+            return 3;
         List<Code> codeList = codeMapper.selectList(new QueryWrapper<>());
         for (Code c : codeList) {
             if (c.getCode().equals(code)) {
@@ -36,7 +34,7 @@ public class UserService {
                 return userMapper.insert(user);
             }
         }
-        return 4;
+        return 3;
     }
 
 }

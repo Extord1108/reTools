@@ -1,6 +1,8 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <router-view></router-view>
+    <n-message-provider>
+      <router-view></router-view>
+    </n-message-provider>
   </n-config-provider>
 </template>
 <script setup>
@@ -23,11 +25,15 @@ const themeOverrides = ref({
     borderFocus: "0.5px solid rgba(52, 52, 56, 0.5)",
     boxShadowFocus: "none",
     color: "rgba(255, 255, 255, 0.5)",
+    caretColor: "#0",
   },
   Dropdown: {
     color: "rgba(255, 255, 255, 0.5)",
   },
   Button: {
+    textColorText: "rgba(240, 240, 240, 1)",
+    textColorTextPressed: "rgba(240, 240, 240, 1)",
+    textColorTextHover: "rgba(200, 200, 200, 1)",
     textColorTertiary: "rgba(240, 240, 240, 1)",
     textColorPressed: "rgba(240, 240, 240, 1)",
     textColorHover: "rgba(200, 200, 200, 1)",
@@ -48,7 +54,12 @@ const themeOverrides = ref({
   Slider: {
     fillColor: "rgb(128, 128, 128)",
     fillColorHover: "rgb(128, 128, 128)",
-  }
+  },
+  Tabs: {
+    tabTextColorActiveBar: "rgba(0,0,0,1)",
+    tabTextColorHoverBar: "rgba(0,0,0,1)",
+    barColor: "rgba(128,128,128, 1)",
+  },
 })
 
 const opacity = computed(() => {

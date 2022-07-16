@@ -17,6 +17,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     }
     @Override
     public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
+        System.out.println(arg0.getSession().getAttribute("user"));
         //登录和注册放行
         if (arg0.getRequestURI().equals("/user/login") || arg0.getRequestURI().equals("/user/register")) {
             return true;
