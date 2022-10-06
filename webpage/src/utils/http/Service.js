@@ -28,6 +28,7 @@ Service.interceptors.response.use(response => {
 }, error => {
     if (error.response.status == 401) {
         window.localStorage.removeItem('username');
+        window.localStorage.removeItem('avatar');
         window.location.reload();
         return Promise.reject(error)
     }

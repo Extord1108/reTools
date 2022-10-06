@@ -171,9 +171,9 @@ const login = () => {
                 else {
                     message.error(res.msg)
                 }
-            })/*.catch(() => {
+            }).catch(() => {
                 message.error("网络错误")
-            })*/
+            })
         }
     });
 }

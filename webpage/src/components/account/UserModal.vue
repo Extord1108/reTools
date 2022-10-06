@@ -3,11 +3,19 @@
         <n-tabs default-value="userInfo" size="large" animated style="margin: 0 -4px"
             pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
             <n-tab-pane name="userInfo" tab="个人信息">
-                <n-aratar round>
-                    <n-icon size="60">
-                        <person-circle-sharp />
-                    </n-icon>
-                </n-aratar>
+                <n-upload :action="uploadUrl" :data="{ type: 'avatar' }" :max="1" :show-file-list="false"
+                    :with-credentials="true" @finish="handleUploadFinish">
+                    <n-aratar v-if="!avatar" style="cursor: pointer;" round>
+                        <n-icon size="60">
+                            <person-circle-sharp />
+                            <div class="avatar-mask">
+                                <n-text>修改头像</n-text>
+                            </div>
+                        </n-icon>
+                    </n-aratar>
+                    <n-avatar v-else :size="60" style="cursor: pointer;" round :src="avatar">
+                    </n-avatar>
+                </n-upload>
                 <n-form ref="userinfoFormRef" :model="userinfoForm" :rules="userinfoRules">
                     <n-form-item-row path="username" label="用户名">
                         <n-input placeholder="" v-model:value="userinfoForm.username" @keydown.enter.prevent />
@@ -33,6 +41,9 @@
                     <n-form-item-row path="newPassword" label="新密码">
                         <n-input placeholder="" v-model:value="passwordForm.newPassword" @keydown.enter.prevent />
                     </n-form-item-row>
+                    <n-form-item-row path="rePassword" label="确认密码">
+                        <n-input placeholder="" v-model:value="passwordForm.rePassword" @keydown.enter.prevent />
+                    </n-form-item-row>
                 </n-form>
                 <n-space>
                     <n-button @click="updatePassword" tertiary block strong>
@@ -45,10 +56,13 @@
 </template>
 <script setup>
 import { PersonCircleSharp } from "@vicons/ionicons5"
-import { onMounted, ref, defineEmits } from 'vue';
+import { onMounted, ref, defineEmits, computed } from 'vue';
 import { Account } from '@/api/account.js';
+import { uploadImage } from '@/api/image.js';
 import { useMessage } from "naive-ui";
 
+const uploadUrl = ref('http://10.193.25.120:8080/test/image/upload');
+const fileList = ref([])
 const message = useMessage()
 const userinfoFormRef = ref()
 const passwordFormRef = ref()
@@ -56,11 +70,13 @@ const userinfoForm = ref({
     username: '',
     email: '',
     phone: '',
+    avatar: '',
 })
 
 const passwordForm = ref({
     oldPassword: '',
     newPassword: '',
+    rePassword: ''
 })
 
 const userinfoRules = ref({
@@ -133,7 +149,31 @@ const passwordRules = ref({
             },
             trigger: ["input", "blur"]
         }
+    ],
+    rePassword: [
+        {
+            required: true,
+            validator(rule, value) {
+                if (!value) {
+                    return new Error("请输入新密码");
+                }
+                else if (value != passwordForm.value.newPassword) {
+                    return new Error("密码错误");
+                }
+                return true;
+            },
+            trigger: ["input", "blur"]
+        }
     ]
+})
+
+const avatar = computed(() => {
+    if (localStorage.getItem('avatar')) {
+        console.log("http://localhost:8081/static/image/" + localStorage.getItem('avatar'))
+        return "http://localhost:8081/static/image/" + localStorage.getItem('avatar')
+    }
+    else
+        return null
 })
 
 const getUserInfo = () => {
@@ -165,6 +205,7 @@ const updateUserInfo = () => {
         }
     })
 }
+
 const updatePassword = () => {
     passwordFormRef.value?.validate((error) => {
         if (!error) {
@@ -187,6 +228,14 @@ const updatePassword = () => {
         }
     })
 }
+
+const handleUploadFinish = ({ file, event }) => {
+    console.log(event)
+    let ret = JSON.parse((event?.target).response);
+    console.log(ret)
+    localStorage.setItem('avatar', ret.url)
+    return file;
+}
 onMounted(() => {
     getUserInfo()
 })
@@ -194,5 +243,22 @@ onMounted(() => {
 <style lang="less" scoped>
 .n-input {
     border: 1px solid rgb(224, 224, 230)
+}
+
+.avatar-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 0.5rem;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.avatar-mask:hover {
+    opacity: 1;
 }
 </style>

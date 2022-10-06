@@ -11,9 +11,9 @@ public class User {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String username;
-    private Integer avatarId;
+    private String avatar;
     private String password;
-    private Integer wallpaperId;
+    private String wallpaper;
     private String email;
     private String phone;
     private Timestamp createDate;

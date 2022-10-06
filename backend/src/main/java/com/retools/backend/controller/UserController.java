@@ -63,11 +63,11 @@ public class UserController {
         else{
             jsonObject.put("code", 200);
             jsonObject.put("msg", "登录成功");
-            //int avatarId = user.getAvatarId();
+            String avatar = user.getAvatar();
             //int wallpaperId = user.getWallpaperId();
             JSONObject userInfo = new JSONObject();
             userInfo.put("username", user.getUsername());
-            //userInfo.put("avatar", avatarId);
+            userInfo.put("avatar", avatar);
             //userInfo.put("wallpaper", wallpaperId);
             jsonObject.put("userInfo", userInfo);
             session.setAttribute("user", user.getId());
@@ -103,6 +103,7 @@ public class UserController {
             userInfo.put("username", user.getUsername());
             userInfo.put("email", user.getEmail());
             userInfo.put("phone", user.getPhone());
+            userInfo.put("avatar",user.getAvatar());
             jsonObject.put("userInfo", userInfo);
         }
         return jsonObject;
