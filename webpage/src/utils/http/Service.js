@@ -1,6 +1,7 @@
 import axios from 'axios'
 // const ConfigBaseURL = 'http://43.138.77.8/dz/' //默认路径
-const ConfigBaseURL = '/test' //默认路径
+export const ConfigBaseURL = '/test' //默认路径
+export const mediaURL = 'http://localhost:8081/static/image/' //媒体文件路径
 
 //使用create方法创建axios实例
 export const Service = axios.create({

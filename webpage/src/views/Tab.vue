@@ -1,42 +1,21 @@
 <template>
   <div>
     <div id="avatar">
-      <n-avatar
-        round
-        color="#00000000"
-        v-if="!avatar"
-        @click="showPanel"
-        :size="40"
-      >
+      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="40">
         <n-icon color="#ffffff80">
           <person-circle-sharp />
         </n-icon>
       </n-avatar>
-      <n-avatar
-        v-else
-        round
-        :src="avatar"
-        @click="showPanel"
-      >
+      <n-avatar v-else round :src="avatar" @click="showPanel">
       </n-avatar>
     </div>
     <div id="panel">
-      <Panel
-        :isPanelShow="isPanelShow"
-        @closePanel="isPanelShow.value = false"
-        @changeBg="getBgImg"
-      ></Panel>
+      <Panel :isPanelShow="isPanelShow" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
     </div>
     <div id="background">
-      <img
-        :src="bgImg"
-        alt="背景图片加载失败"
-      >
+      <img :src="bgImg" alt="背景图片加载失败">
       <div>
-        <n-el
-          tag="div"
-          id="bg-mask"
-        ></n-el>
+        <n-el tag="div" id="bg-mask"></n-el>
       </div>
     </div>
     <div id="content">
@@ -46,10 +25,7 @@
     <div id="bottom">
       <!--备案信息-->
       <div id="icp">
-        <a
-          href="http://beian.miit.gov.cn/"
-          target="_blank"
-        >鲁ICP备2022027913号</a>
+        <a href="http://beian.miit.gov.cn/" target="_blank">鲁ICP备2022027913号</a>
       </div>
     </div>
   </div>
@@ -58,11 +34,13 @@
 import { PersonCircleSharp } from "@vicons/ionicons5";
 import { NAvatar } from "naive-ui";
 import { onMounted, ref, reactive, computed } from "vue";
+import { useStore } from "vuex";
+import { mediaURL } from "@/utils/http/Service.js"
 import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
 import Panel from "@/components/Panel.vue";
+const store = useStore();
 const bgImg = ref("");
-const avatar = ref("");
 const isPanelShow = reactive({ value: false });
 
 const showPanel = () => {
@@ -73,20 +51,28 @@ const getBgImg = () => {
   //当前屏幕大小
   const width = document.documentElement.clientWidth;
   const height = document.documentElement.clientHeight;
-  bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
+  //随机数
+  const random = 1 + Math.floor(Math.random() * 2);
+  switch (random) {
+    case 1:
+      bgImg.value = `https://bing.img.run/rand.php`;
+      break;
+    case 2:
+      bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
+      break;
+  }
 };
 
-const getAvatar = () => {
-  if (localStorage.getItem("avatar")) {
-    console.log("avatar");
-    avatar.value =
-      "http://localhost:8081/static/image/" + localStorage.getItem("avatar");
-  } else avatar.value = null;
-};
+const avatar = computed(() => {
+  if (store.getters.getAvatar != null && store.getters.getAvatar != "") {
+    return mediaURL + store.getters.getAvatar;
+  }
+  else
+    return null;
+})
 
 onMounted(() => {
   getBgImg();
-  getAvatar();
 });
 </script>
 <style lang="less" scoped>
@@ -153,6 +139,7 @@ onMounted(() => {
       color: #bbb;
       text-decoration: none;
     }
+
     a:hover {
       color: #222;
     }

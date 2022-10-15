@@ -59,11 +59,14 @@ import { PersonCircleSharp } from "@vicons/ionicons5"
 import { onMounted, ref, defineEmits, computed } from 'vue';
 import { Account } from '@/api/account.js';
 import { uploadImage } from '@/api/image.js';
+import { mediaURL } from '@/utils/http/Service.js';
 import { useMessage } from "naive-ui";
+import { useStore } from 'vuex';
 
 const uploadUrl = ref('http://10.193.25.120:8080/test/image/upload');
 const fileList = ref([])
 const message = useMessage()
+const store = useStore()
 const userinfoFormRef = ref()
 const passwordFormRef = ref()
 const userinfoForm = ref({
@@ -167,26 +170,26 @@ const passwordRules = ref({
     ]
 })
 
-const avatar = computed(() => {
-    if (localStorage.getItem('avatar')) {
-        console.log("http://localhost:8081/static/image/" + localStorage.getItem('avatar'))
-        return "http://localhost:8081/static/image/" + localStorage.getItem('avatar')
-    }
-    else
-        return null
-})
-
 const getUserInfo = () => {
 
     Account.getUserInfo().then(res => {
-        if (res.code == 200)
-            userinfoForm.value = res.userInfo
+        if (res.code == 200) {
+            userinfoForm.value = res.userInfo;
+        }
         else
             message.error(res.msg)
     }).catch(() => {
         message.error("网络错误")
     })
 }
+
+const avatar = computed(() => {
+    if (store.getters.getAvatar != null && store.getters.getAvatar != "") {
+        return mediaURL + store.getters.getAvatar;
+    }
+    else
+        return null;
+})
 
 const updateUserInfo = () => {
     userinfoFormRef.value?.validate((error) => {
@@ -234,6 +237,7 @@ const handleUploadFinish = ({ file, event }) => {
     let ret = JSON.parse((event?.target).response);
     console.log(ret)
     localStorage.setItem('avatar', ret.url)
+    store.commit('changeAvatar', ret.url)
     return file;
 }
 onMounted(() => {

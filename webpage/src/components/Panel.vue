@@ -1,55 +1,25 @@
 <template>
   <div>
-    <n-el
-      tag="div"
-      id="panel-content"
-      ref="panel"
-    >
+    <n-el tag="div" id="panel-content" ref="panel">
       <div class="panel-back">
-        <n-icon
-          size="35"
-          color="#ffffff80"
-          @click="close"
-        >
+        <n-icon size="35" color="#ffffff80" @click="close">
           <arrow-back-circle-outline />
         </n-icon>
       </div>
       <div class="user">
-        <n-avatar
-          color="#00000000"
-          :size="40"
-          round
-          v-if="!avatar"
-        >
+        <n-avatar color="#00000000" :size="40" round v-if="!avatar">
           <n-icon color="#ffffff80">
             <person-circle-sharp />
           </n-icon>
         </n-avatar>
-        <n-avatar
-          v-else
-          round
-          :src="avatar"
-        >
+        <n-avatar v-else round :src="avatar">
         </n-avatar>
-        <n-button
-          v-if="!isLogin"
-          strong
-          type="tertiary"
-          @click="showLoginModal = true"
-        >登录/注册</n-button>
+        <n-button v-if="!isLogin" strong type="tertiary" @click="openLoginModal">登录/注册</n-button>
         <n-button-group v-else>
-          <n-button
-            style="width:100%;font-size: 1rem;"
-            text
-            @click="showUserModal = true"
-          >{{
-                         userInfo.username 
-                        }}</n-button>
-          <n-button
-            text
-            style="width:100%;font-size: 1.5rem"
-            @click="logout"
-          >
+          <n-button style="width:100%;font-size: 1rem;" text @click="showUserModal = true">{{
+          userInfo.username
+          }}</n-button>
+          <n-button text style="width:100%;font-size: 1.5rem" @click="logout">
             <n-icon>
               <log-out-outline />
             </n-icon>
@@ -65,34 +35,14 @@
         </n-h4>
         <n-space vertical>
           <n-text>遮罩深度</n-text>
-          <n-slider
-            v-model:value="opacity"
-            :max="1"
-            :step="0.05"
-          />
+          <n-slider v-model:value="opacity" :max="1" :step="0.05" />
           <n-text>背景模糊度</n-text>
-          <n-slider
-            v-model:value="ambiguity"
-            :max="1"
-            :step="0.05"
-          />
+          <n-slider v-model:value="ambiguity" :max="1" :step="0.05" />
           <n-text>壁纸</n-text>
           <n-space align="center">
-            <n-button
-              :loading="loading"
-              @click="changeBg"
-              strong
-              type="tertiary"
-            >切换壁纸</n-button>
-            <n-upload
-              accept=".png,.jpg,.jepg"
-              :show-file-list="false"
-              @before-upload="uploadPic"
-            >
-              <n-button
-                strong
-                type="tertiary"
-              >上传壁纸</n-button>
+            <n-button :loading="loading" @click="changeBg" strong type="tertiary">切换壁纸</n-button>
+            <n-upload accept=".png,.jpg,.jepg" :show-file-list="false" @before-upload="uploadPic">
+              <n-button strong type="tertiary" disabled>上传壁纸</n-button>
             </n-upload>
 
           </n-space>
@@ -102,10 +52,7 @@
       <n-divider style="padding:0 2rem 0 2rem;"></n-divider>
     </n-el>
     <n-modal v-model:show="showLoginModal">
-      <login-modal
-        @close-modal="closeLoginModal"
-        @login-success="loginSuccess"
-      ></login-modal>
+      <login-modal @close-modal="closeLoginModal" @login-success="loginSuccess"></login-modal>
     </n-modal>
     <n-modal v-model:show="showUserModal">
       <user-modal @close-modal="closeUserModal"></user-modal>
@@ -117,6 +64,7 @@ import {
   ArrowBackCircleOutline,
   PersonCircleSharp,
   LogOutOutline,
+  StorefrontSharp,
 } from "@vicons/ionicons5";
 import { NAvatar, useMessage } from "naive-ui";
 import {
@@ -132,6 +80,7 @@ import { useStore } from "vuex";
 import LoginModal from "./account/LoginModal.vue";
 import UserModal from "./account/UserModal.vue";
 import { Account } from "../api/account";
+import { mediaURL } from "@/utils/http/Service.js"
 //组件传参
 const props = defineProps({
   isPanelShow: {
@@ -170,6 +119,11 @@ const uploadPic = (file, fileList) => {
   console.log(fileList);
 };
 
+const openLoginModal = () => {
+  //message.warning("登录注册功能暂未开放");
+  showLoginModal.value = true;
+};
+
 const closeLoginModal = () => {
   showLoginModal.value = false;
 };
@@ -178,9 +132,10 @@ const loginSuccess = (data) => {
   userInfo.value.username = data.username;
   localStorage.setItem("username", data.username);
   if (data.avatar != null) {
+    userInfo.value.avatar = mediaURL + data.avatar;
     localStorage.setItem("avatar", data.avatar);
+    store.commit("changeAvatar", data.avatar);
   }
-  //localStorage.setItem('wallpaper',data.wallpaper)
   showLoginModal.value = false;
   isLogin.value = true;
 };
@@ -188,24 +143,23 @@ const loginSuccess = (data) => {
 const logout = () => {
   localStorage.removeItem("username");
   localStorage.removeItem("avatar");
-  //localStorage.removeItem('wallpaper')
+  store.commit("changeAvatar", "");
   isLogin.value = false;
+  userInfo.value = {};
   Account.logout().then(() => {
     message.success("退出成功");
   });
 };
 
 const avatar = computed(() => {
-  if (localStorage.getItem("avatar")) {
-    console.log(
-      "http://localhost:8081/static/image/" + localStorage.getItem("avatar")
-    );
-    return (
-      "http://localhost:8081/static/image/" + localStorage.getItem("avatar")
-    );
-  } else return null;
-});
+  if (store.getters.getAvatar != null && store.getters.getAvatar != "") {
+    return mediaURL + store.getters.getAvatar;
+  }
+  else
+    return null;
+})
 
+//控制抽屉弹出
 watch(props.isPanelShow, (val) => {
   if (val.value) {
     console.log(panel.value);
@@ -214,9 +168,13 @@ watch(props.isPanelShow, (val) => {
     panelPos.left = "calc(-20% - 10px)";
   }
 });
+
+//监听透明度变化
 watch(opacity, (val) => {
   store.commit("changeBgOpacity", val);
 });
+
+//监听模糊度变化
 watch(ambiguity, (val) => {
   store.commit("changeAmbiguity", val);
 });

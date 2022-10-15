@@ -109,7 +109,7 @@ const handleInputChange = () => {
         searchSuggest.value.length = 0
         showSearchSuggest.value = false
     }
-    jsonp('http://suggestion.baidu.com/su', {
+    jsonp('https://suggestion.baidu.com/su', {
         callbackQuery: 'cb',
         callbackName: 'callback',
         wd: searchKeyword.value,
@@ -142,6 +142,8 @@ const handleSuggestSelected = (key, option) => {
 //搜索
 const search = () => {
     window.open(selectedNow.value.url + searchKeyword.value)
+    searchKeyword.value = ''
+    searchSuggest.value.length = 0
 }
 </script>
 <style lang="less" scoped>
