@@ -59,11 +59,11 @@ import { PersonCircleSharp } from "@vicons/ionicons5"
 import { onMounted, ref, defineEmits, computed } from 'vue';
 import { Account } from '@/api/account.js';
 import { uploadImage } from '@/api/image.js';
-import { mediaURL } from '@/utils/http/Service.js';
+import { mediaURL, ConfigBaseURL } from '@/utils/http/Service.js';
 import { useMessage } from "naive-ui";
 import { useStore } from 'vuex';
 
-const uploadUrl = ref('http://10.193.25.120:8080/test/image/upload');
+const uploadUrl = ref(ConfigBaseURL + '/image/upload');
 const fileList = ref([])
 const message = useMessage()
 const store = useStore()

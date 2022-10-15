@@ -2,7 +2,7 @@
   <div>
     <n-el tag="div" id="panel-content" ref="panel">
       <div class="panel-back">
-        <n-icon size="35" color="#ffffff80" @click="close">
+        <n-icon size="40" color="#ffffff80" @click="close">
           <arrow-back-circle-outline />
         </n-icon>
       </div>
@@ -41,8 +41,10 @@
           <n-text>壁纸</n-text>
           <n-space align="center">
             <n-button :loading="loading" @click="changeBg" strong type="tertiary">切换壁纸</n-button>
-            <n-upload accept=".png,.jpg,.jepg" :show-file-list="false" @before-upload="uploadPic">
-              <n-button strong type="tertiary" disabled>上传壁纸</n-button>
+            <n-upload ref="wallpaperUploadRef" accept=".png,.jpg,.jepg" :action="uploadUrl"
+              :data="{ type: 'wallpaper' }" :max="1" :show-file-list="false" :default-file-list="fileList"
+              :with-credentials="true" @finish="handleUploadFinish" @error="handleUploadError">
+              <n-button strong type="tertiary">上传壁纸</n-button>
             </n-upload>
 
           </n-space>
@@ -80,7 +82,7 @@ import { useStore } from "vuex";
 import LoginModal from "./account/LoginModal.vue";
 import UserModal from "./account/UserModal.vue";
 import { Account } from "../api/account";
-import { mediaURL } from "@/utils/http/Service.js"
+import { mediaURL, ConfigBaseURL } from "@/utils/http/Service.js"
 //组件传参
 const props = defineProps({
   isPanelShow: {
@@ -98,6 +100,8 @@ const panelPos = reactive({ left: "calc(-20% - 10px)" });
 const showLoginModal = ref(false); //登录模态框
 const showUserModal = ref(false); //用户模态框
 const isLogin = ref(false); //是否登录
+const uploadUrl = ref(ConfigBaseURL + '/image/upload');
+const wallpaperUploadRef = ref();
 const userInfo = ref({
   avatar: "",
   username: "",
@@ -132,9 +136,10 @@ const loginSuccess = (data) => {
   userInfo.value.username = data.username;
   localStorage.setItem("username", data.username);
   if (data.avatar != null) {
-    userInfo.value.avatar = mediaURL + data.avatar;
     localStorage.setItem("avatar", data.avatar);
     store.commit("changeAvatar", data.avatar);
+    localStorage.setItem("wallpaper", data.wallpaper);
+    store.commit("changeWallpaper", data.wallpaper);
   }
   showLoginModal.value = false;
   isLogin.value = true;
@@ -143,13 +148,29 @@ const loginSuccess = (data) => {
 const logout = () => {
   localStorage.removeItem("username");
   localStorage.removeItem("avatar");
+  localStorage.removeItem("wallpaper");
   store.commit("changeAvatar", "");
+  store.commit("changeWallpaper", "");
   isLogin.value = false;
   userInfo.value = {};
   Account.logout().then(() => {
     message.success("退出成功");
   });
 };
+
+//上传壁纸
+const handleUploadFinish = ({ file, event }) => {
+  let ret = JSON.parse((event?.target).response);
+  localStorage.setItem('wallpaper', ret.url)
+  store.commit('changeWallpaper', ret.url)
+  wallpaperUploadRef.value.clear()
+  return null;
+}
+
+//上传壁纸失败
+const handleUploadError = () => {
+  message.error('上传失败')
+}
 
 const avatar = computed(() => {
   if (store.getters.getAvatar != null && store.getters.getAvatar != "") {

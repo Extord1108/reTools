@@ -141,7 +141,7 @@ const handleSuggestSelected = (key, option) => {
 }
 //搜索
 const search = () => {
-    window.open(selectedNow.value.url + searchKeyword.value)
+    window.open(selectedNow.value.url + searchKeyword.value.replace(/\+/g, "%2B").replace(/%/g, "%25").replace(/#/g, "%23").replace(/&/g, "%26").replace(/\?/g, "%3F").replace(/=/g, "%3D").replace(/ /g, "+"))
     searchKeyword.value = ''
     searchSuggest.value.length = 0
 }

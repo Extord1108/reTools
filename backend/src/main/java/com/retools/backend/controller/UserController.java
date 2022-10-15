@@ -64,11 +64,11 @@ public class UserController {
             jsonObject.put("code", 200);
             jsonObject.put("msg", "登录成功");
             String avatar = user.getAvatar();
-            //int wallpaperId = user.getWallpaperId();
+            String wallpaper = user.getWallpaper();
             JSONObject userInfo = new JSONObject();
             userInfo.put("username", user.getUsername());
             userInfo.put("avatar", avatar);
-            //userInfo.put("wallpaper", wallpaperId);
+            userInfo.put("wallpaper", wallpaper);
             jsonObject.put("userInfo", userInfo);
             session.setAttribute("user", user.getId());
             session.setMaxInactiveInterval(60 * 60 * 24 * 7);

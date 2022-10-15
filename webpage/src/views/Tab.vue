@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="avatar">
-      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="40">
+      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="50">
         <n-icon color="#ffffff80">
           <person-circle-sharp />
         </n-icon>
@@ -13,7 +13,8 @@
       <Panel :isPanelShow="isPanelShow" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
     </div>
     <div id="background">
-      <img :src="bgImg" alt="背景图片加载失败">
+      <img style="overflow: hidden;" v-if="wallpaper" :src="wallpaper" alt="">
+      <img v-else :src="bgImg" alt="背景图片加载失败">
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
@@ -71,6 +72,14 @@ const avatar = computed(() => {
     return null;
 })
 
+const wallpaper = computed(() => {
+  if (store.getters.getWallpaper != null && store.getters.getWallpaper != "") {
+    return mediaURL + store.getters.getWallpaper;
+  }
+  else
+    return null;
+})
+
 onMounted(() => {
   getBgImg();
 });
@@ -81,8 +90,8 @@ onMounted(() => {
   top: 0;
   left: 0;
   margin: auto;
-  margin-top: 5px;
-  margin-left: 5px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 #avatar:hover {
