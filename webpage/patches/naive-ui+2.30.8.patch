@@ -1,0 +1,38 @@
+diff --git a/node_modules/naive-ui/es/dropdown/src/Dropdown.js b/node_modules/naive-ui/es/dropdown/src/Dropdown.js
+index 67befac..7d6bbe7 100644
+--- a/node_modules/naive-ui/es/dropdown/src/Dropdown.js
++++ b/node_modules/naive-ui/es/dropdown/src/Dropdown.js
+@@ -100,16 +100,16 @@ export default defineComponent({
+                     handler: handleKeyDownUp
+                 },
+                 ArrowRight: {
+-                    prevent: true,
+-                    handler: handleKeyDownRight
++                    prevent: false,
++                    handler: null
+                 },
+                 ArrowDown: {
+                     prevent: true,
+                     handler: handleKeyDownDown
+                 },
+                 ArrowLeft: {
+-                    prevent: true,
+-                    handler: handleKeyDownLeft
++                    prevent: false,
++                    handler: null
+                 },
+                 Escape: handleKeyDownEsc
+             },
+@@ -212,10 +212,10 @@ export default defineComponent({
+                             nextNode = currentNode.getPrev();
+                             break;
+                         case 'right':
+-                            nextNode = currentNode.getChild();
++                            nextNode = currentNode;
+                             break;
+                         case 'left':
+-                            nextNode = currentNode.getParent();
++                            nextNode = currentNode;
+                             break;
+                     }
+                     if (nextNode)

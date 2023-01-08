@@ -41,11 +41,11 @@
           <n-text>壁纸</n-text>
           <n-space align="center">
             <n-button :loading="loading" @click="changeBg" strong type="tertiary">切换壁纸</n-button>
-            <n-upload ref="wallpaperUploadRef" accept=".png,.jpg,.jepg" :action="uploadUrl"
+            <!--<n-upload ref="wallpaperUploadRef" accept=".png,.jpg,.jepg" :action="uploadUrl"
               :data="{ type: 'wallpaper' }" :max="1" :show-file-list="false" :default-file-list="fileList"
               :with-credentials="true" @finish="handleUploadFinish" @error="handleUploadError">
               <n-button strong type="tertiary">上传壁纸</n-button>
-            </n-upload>
+            </n-upload>-->
 
           </n-space>
 
@@ -124,8 +124,8 @@ const uploadPic = (file, fileList) => {
 };
 
 const openLoginModal = () => {
-  //message.warning("登录注册功能暂未开放");
-  showLoginModal.value = true;
+  message.warning("登录注册功能暂未开放");
+  //showLoginModal.value = true;
 };
 
 const closeLoginModal = () => {

@@ -1,14 +1,12 @@
 <template>
     <div>
         <div class="search-box">
-            <n-dropdown :show="showSearchSuggest" :options="searchSuggest" placement="bottom-start"
-                :on-select="handleSuggestSelected" @clickoutside="showSearchSuggest = false" style="width: 35rem;">
-                <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange"
-                    @focus="handleInputFocus" @blur="isSearchIconShow = false" @keyup.enter="search" clearable
-                    style="max-width: 35rem;min-width: 35rem;height: 2.5rem;">
+            <n-dropdown :show="showSearchSuggest && searchSuggest.length > 0" :options="searchSuggest" placement="bottom-start" :on-select="handleSuggestSelected"
+                @clickoutside="showSearchSuggest = false" style="width: 35rem;">
+                <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange" @focus="handleInputFocus" @click="showSearchSuggest = true"
+                    @blur="isSearchIconShow = false" @keyup.enter="search" clearable style="max-width: 35rem;min-width: 35rem;height: 2.5rem;">
                     <template #prefix>
-                        <n-dropdown :render-label="renderButton" :render-icon="null" trigger="hover"
-                            :options="searchWays" :on-select="handleSearchSelected">
+                        <n-dropdown :render-label="renderButton" :render-icon="null" trigger="hover" :options="searchWays" :on-select="handleSearchSelected">
                             <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />
                         </n-dropdown>
                     </template>
@@ -141,7 +139,7 @@ const handleSuggestSelected = (key, option) => {
 }
 //搜索
 const search = () => {
-    window.open(selectedNow.value.url + searchKeyword.value.replace(/\+/g, "%2B").replace(/%/g, "%25").replace(/#/g, "%23").replace(/&/g, "%26").replace(/\?/g, "%3F").replace(/=/g, "%3D").replace(/ /g, "+"))
+    window.open(selectedNow.value.url + searchKeyword.value.replace(/%/g, "%25").replace(/\+/g, "%2B").replace(/#/g, "%23").replace(/&/g, "%26").replace(/\?/g, "%3F").replace(/=/g, "%3D").replace(/ /g, "+"))
     searchKeyword.value = ''
     searchSuggest.value.length = 0
 }
