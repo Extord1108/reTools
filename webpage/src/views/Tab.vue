@@ -22,6 +22,22 @@
     <div id="content">
       <Date></Date>
       <Search></Search>
+      <n-grid :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 75vh;" :cols="48">
+        <n-gi :span="1"></n-gi>
+        <n-gi :span="12">
+          <n-el tag="div" class="box-bg"></n-el>
+        </n-gi>
+        <n-gi :span="22">
+          <n-el tag="div" class="box-bg">
+            <CollectionBox></CollectionBox>
+          </n-el>
+
+        </n-gi>
+        <n-gi :span="12">
+          <n-el tag="div" class="box-bg"></n-el>
+        </n-gi>
+        <n-gi :span="1"></n-gi>
+      </n-grid>
     </div>
     <div id="bottom">
       <!--备案信息-->
@@ -39,6 +55,7 @@ import { useStore } from "vuex";
 import { mediaURL } from "@/utils/http/Service.js"
 import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
+import CollectionBox from "@/components/collection/CollectionBox.vue";
 import Panel from "@/components/Panel.vue";
 const store = useStore();
 const bgImg = ref("");
@@ -144,7 +161,7 @@ onMounted(() => {
 
   #icp {
     a {
-      font-size: 12px;
+      font-size: 0.5rem;
       color: #bbb;
       text-decoration: none;
     }
@@ -153,5 +170,10 @@ onMounted(() => {
       color: #222;
     }
   }
+}
+
+.box-bg {
+  height: 100%;
+  background: var(--body-color);
 }
 </style>
