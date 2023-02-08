@@ -14,7 +14,7 @@ const store = useStore()
 const themeOverrides = ref({
   common: {
     baseColor: "rgba(255, 255, 255, 1)",
-    bodyColor: "rgba(0, 0, 0,0.2)",
+    bodyColor: "rgba(0, 0, 0,0.3)",
     panelColor: "rgba(255, 255, 255, 0.1)",
     panelShadow: "5px 0 5px rgba(200, 200, 200, 0.5)",
     bodyAmbiguity: "0px",

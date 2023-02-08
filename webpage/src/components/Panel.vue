@@ -17,7 +17,7 @@
         <n-button v-if="!isLogin" strong type="tertiary" @click="openLoginModal">登录/注册</n-button>
         <n-button-group v-else>
           <n-button style="width:100%;font-size: 1rem;" text @click="showUserModal = true">{{
-          userInfo.username
+            userInfo.username
           }}</n-button>
           <n-button text style="width:100%;font-size: 1.5rem" @click="logout">
             <n-icon>
