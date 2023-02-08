@@ -14,6 +14,7 @@
                             <n-form-item path="icon" label="网站图标">
                                 <n-radio-group :value="radioValue" @update:value="handleCheckRadio">
                                     <n-radio value="color">
+
                                         <n-avatar :color="webModel.iconColor">{{ webModel.name }}</n-avatar>
                                     </n-radio>
                                     <n-radio value="url" v-if="iconUrl">
@@ -29,7 +30,7 @@
                         </n-form>
                     </n-tab-pane>
                     <n-tab-pane name="app" tab="应用">
-                        Hey Jude
+                        暂无
                     </n-tab-pane>
                 </n-tabs>
             </n-card>
@@ -42,7 +43,9 @@ import { AddCircle } from '@vicons/ionicons5'
 import { Service as axios } from '@/utils/http/Service.js'
 import $ from "jquery";
 import { useMessage } from 'naive-ui';
+import { useNotification } from 'naive-ui'
 const message = useMessage()
+const notification = useNotification()
 //模态框开关相关
 const props = defineProps({
     showAdd: {
@@ -134,6 +137,7 @@ const radioValue = ref("color")
 
 //自动获取网址的图标
 const getIcon = () => {
+    notification.info({ content: "正在自动获取图标...", duration: 3000 })
     var parser = document.createElement('a');
     let tempIconUrl = ""
     parser.href = webModel.url;
@@ -145,17 +149,19 @@ const getIcon = () => {
             imgObj.src = tempIconUrl;
             imgObj.onerror = function (err) {
                 iconUrl.value = ""
-                console.log('无效链接');
+                notification.warning({ content: "获取失败，请选择文字图标", duration: 3000 })
             };
             imgObj.onload = function (res) {
                 iconUrl.value = tempIconUrl
             }
         } catch {
             iconUrl.value = ""
+            notification.warning({ content: "获取失败，请选择文字图标", duration: 3000 })
         }
     }
     else {
         iconUrl.value = ""
+        notification.warning({ content: "获取失败，请选择文字图标", duration: 3000 })
     }
 }
 

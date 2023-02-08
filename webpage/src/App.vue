@@ -1,7 +1,9 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
     <n-message-provider>
-      <router-view></router-view>
+      <n-notification-provider>
+        <router-view></router-view>
+      </n-notification-provider>
     </n-message-provider>
   </n-config-provider>
 </template>
