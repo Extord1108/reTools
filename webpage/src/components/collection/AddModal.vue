@@ -41,7 +41,6 @@
 import { ref, watch, defineProps, computed, defineEmits, reactive } from 'vue'
 import { AddCircle } from '@vicons/ionicons5'
 import { Service as axios } from '@/utils/http/Service.js'
-import $ from "jquery";
 import { useMessage } from 'naive-ui';
 import { useNotification } from 'naive-ui'
 const message = useMessage()
