@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div ref="collectionBox" class="collection-box">
             <n-scrollbar style="max-height: 70vh;padding: 5px 0;">
                 <grid-layout style="min-height: 70vh;" v-model:layout="layout" :col-num="10" :is-resizable="false" :row-height="rowHeight" :is-draggable="true" :is-mirrored="false"
@@ -158,6 +159,12 @@ onMounted(() => {
 })
 </script>
 <style lang="less" scoped>
+#header {
+    padding: 10px 20px 0 20px;
+    color: white;
+    text-align: left;
+}
+
 .collection-box {
     display: flex;
     justify-content: center;

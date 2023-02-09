@@ -14,6 +14,12 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      "/itapi": {
+        target: "https://api.itapi.cn/api",
+        pathRewrite: { "^/itapi": "" },
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
 };

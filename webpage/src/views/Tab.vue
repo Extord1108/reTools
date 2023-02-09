@@ -22,10 +22,12 @@
     <div id="content">
       <Date></Date>
       <Search></Search>
-      <n-grid :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 75vh;" :cols="48">
+      <n-grid :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 34rem;" :cols="48">
         <n-gi :span="1"></n-gi>
         <n-gi :span="12">
-          <n-el tag="div" class="box-bg"></n-el>
+          <n-el tag="div" class="box-bg">
+            <TrendBox></TrendBox>
+          </n-el>
         </n-gi>
         <n-gi :span="22">
           <n-el tag="div" class="box-bg">
@@ -56,6 +58,7 @@ import { mediaURL } from "@/utils/http/Service.js"
 import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
 import CollectionBox from "@/components/collection/CollectionBox.vue";
+import TrendBox from "@/components/Trend/TrendBox.vue";
 import Panel from "@/components/Panel.vue";
 const store = useStore();
 const bgImg = ref("");

@@ -15,6 +15,7 @@ const store = useStore()
 //自定义主题
 const themeOverrides = ref({
   common: {
+    primaryColor: "rgba(0, 0, 0, 1)",
     baseColor: "rgba(255, 255, 255, 1)",
     bodyColor: "rgba(0, 0, 0,0.3)",
     panelColor: "rgba(255, 255, 255, 0.1)",
@@ -62,6 +63,9 @@ const themeOverrides = ref({
     tabTextColorHoverBar: "rgba(0,0,0,1)",
     barColor: "rgba(128,128,128, 1)",
   },
+  PageHeader: {
+    titleTextColor: "rgba(240, 240, 240, 1)",
+  }
 })
 
 const opacity = computed(() => {
