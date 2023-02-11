@@ -20,6 +20,30 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      "/zhihu": {
+        target: "https://api.zhihu.com",
+        pathRewrite: { "^/zhihu": "" },
+        ws: true,
+        changeOrigin: true,
+      },
+      "/bilibili": {
+        target: "https://s.search.bilibili.com",
+        pathRewrite: { "^/bilibili": "" },
+        ws: true,
+        changeOrigin: true,
+      },
+      "/weibo": {
+        target: "https://weibo.com",
+        pathRewrite: { "^/weibo": "" },
+        ws: true,
+        changeOrigin: true,
+      },
+      "/baidu": {
+        target: "https://top.baidu.com/api",
+        pathRewrite: { "^/baidu": "" },
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
 };

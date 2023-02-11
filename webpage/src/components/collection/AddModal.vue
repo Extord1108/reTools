@@ -169,6 +169,7 @@ const handleCheckRadio = (value) => {
     radioValue.value = value
 }
 
+//添加
 const addWeb = () => {
     var layout = JSON.parse(localStorage.getItem('layout'))
     let maxNum = 0, maxX = 0, maxY = 0, WofMax, HofMax, maxI = 0;
@@ -206,6 +207,7 @@ const addWeb = () => {
     message.success("添加成功")
 }
 
+//修改
 const modifyWeb = () => {
     var layout = JSON.parse(localStorage.getItem('layout'))
     var i = webModel.i
@@ -227,6 +229,7 @@ const modifyWeb = () => {
     message.success("修改成功")
 }
 
+//点击添加或修改按钮
 const handleButtonClick = () => {
     webFormRef.value?.validate((errors) => {
         if (!errors) {

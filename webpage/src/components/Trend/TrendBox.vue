@@ -51,6 +51,7 @@ import { ref, onMounted } from "vue"
 import { RefreshSharp } from "@vicons/ionicons5"
 import { useNotification } from "naive-ui";
 import axios from "axios";
+import { reject } from "lodash";
 const notification = useNotification()
 const trends = ref([
     {
@@ -83,6 +84,7 @@ const getTrendofKey = (i) => {
     return new Promise((resolve, reject) => {
         if (trends.value[i].show) {
             var url = '/itapi/hotnews/' + trends.value[i].key + '?key=qlkhD15DMJuQqX0AVattPZgDRu'
+            url = url.replace("/itapi", "https://api.itapi.cn/api")
             axios.get(url).then(res => {
                 trends.value[i].content = res.data.data.slice(0, 10)
                 resolve()
@@ -97,6 +99,106 @@ const getTrendofKey = (i) => {
     })
 }
 
+const getZhihuTrend = (i) => {
+    return new Promise((resolve, reject) => {
+        var url = "/zhihu/topstory/hot-list"
+        //url = url.replace("/zhihu", "https://api.zhihu.com")
+        axios.get(url).then(res => {
+            console.log(res)
+            var content = []
+            res.data.data.slice(0, 10).forEach(line => {
+                content.push({
+                    name: line.target.title,
+                    url: line.target.url.replace("api", "www").replace("tions", "tion")
+                })
+            });
+            trends.value[i].content = content
+            resolve()
+        }).catch(err => {
+            notification.warning({
+                content: "获取知乎热榜失败",
+                duration: 1000
+            })
+            reject()
+        })
+    })
+}
+
+const getBilibiliTrend = (i) => {
+    return new Promise((resolve, reject) => {
+        var url = "/bilibili/main/hotword"
+        //url = url.replace("/bilibili", "https://s.search.bilibili.com")
+        axios.get(url).then(res => {
+            console.log(res)
+            var content = []
+            res.data.list.slice(0, 10).forEach(line => {
+                content.push({
+                    name: line.show_name,
+                    url: "https://search.bilibili.com/all?keyword=" + line.show_name.replace(' ', "%20")
+                })
+            });
+            trends.value[i].content = content
+            resolve()
+        }).catch(err => {
+            notification.warning({
+                content: "获取B站热榜失败",
+                duration: 1000
+            })
+            reject()
+        })
+    })
+}
+
+const getWeiBoTrend = (i) => {
+    return new Promise((resolve, reject) => {
+        var url = "/weibo/ajax/statuses/hot_band"
+        //url = url.replace("/weibo", "https://weibo.com")
+        axios.get(url).then(res => {
+            console.log(res)
+            var content = []
+            res.data.data.band_list.slice(0, 10).forEach(line => {
+                content.push({
+                    name: line.word,
+                    url: "https://s.weibo.com/weibo?q=%23" + line.word.replace(' ', "%20") + "%23"
+                })
+            });
+            trends.value[i].content = content
+            resolve()
+        }).catch(err => {
+            notification.warning({
+                content: "获取微博热榜失败",
+                duration: 1000
+            })
+            reject()
+        })
+    })
+}
+
+const getBaiduTrend = (i) => {
+    return new Promise((resolve, reject) => {
+        var url = "/baidu/board"
+        //url = url.replace("/baidu", "https://top.baidu.com/api")
+        axios.get(url).then(res => {
+            console.log(res)
+            var content = []
+            res.data.data.cards[0].content.slice(0, 10).forEach(line => {
+                content.push({
+                    name: line.word,
+                    url: line.url
+                })
+            });
+            trends.value[i].content = content
+            resolve()
+        }).catch(err => {
+            notification.warning({
+                content: "获取百度热榜失败",
+                duration: 1000
+            })
+            reject()
+        })
+    })
+}
+
 const getTrend = (refresh) => {
     if (refresh)
         notification.info({
@@ -105,11 +207,30 @@ const getTrend = (refresh) => {
         })
     let actArr = []
     for (let i = 0; i < trends.value.length; i++) {
-        actArr.push(getTrendofKey(i))
+        if (trends.value[i].show) {
+            switch (trends.value[i].key) {
+                case "zhihu":
+                    actArr.push(getZhihuTrend(i))
+                    break
+                case "bilibili":
+                    actArr.push(getBilibiliTrend(i))
+                    break
+                case "weibo":
+                    actArr.push(getWeiBoTrend(i))
+                    break
+                case "baidu":
+                    actArr.push(getBaiduTrend(i))
+                    break
+            }
+        }
     }
     Promise.all(actArr).then(() => {
         localStorage.setItem("trends", JSON.stringify(trends.value))
         localStorage.setItem("trends_time", new Date().getTime())
+    }).catch(() => {
+        var last_time = localStorage.getItem("trends_time")
+        if (last_time)
+            trends.value = JSON.parse(localStorage.getItem("trends"))
     })
 }
 
