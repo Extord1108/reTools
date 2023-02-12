@@ -136,11 +136,11 @@ const radioValue = ref("color")
 
 //自动获取网址的图标
 const getIcon = () => {
-    notification.info({ content: "正在自动获取图标...", duration: 1000 })
     var parser = document.createElement('a');
     let tempIconUrl = ""
     parser.href = webModel.url;
     if (parser.hostname && parser.host != window.location.host) {
+        notification.info({ content: "正在自动获取图标...", duration: 1000 })
         tempIconUrl = parser.protocol + '//' + parser.host + '/favicon.ico';
 
         try {
@@ -160,7 +160,6 @@ const getIcon = () => {
     }
     else {
         iconUrl.value = ""
-        notification.warning({ content: "获取失败，请选择文字图标", duration: 1000 })
     }
 }
 

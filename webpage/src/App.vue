@@ -54,18 +54,8 @@ const themeOverrides = ref({
     textColor: "rgba(240, 240, 240, 1)",
     headerBarColor: "rgba(240, 240, 240, 1)",
   },
-  Slider: {
-    fillColor: "rgb(128, 128, 128)",
-    fillColorHover: "rgb(128, 128, 128)",
-  },
-  Tabs: {
-    tabTextColorActiveBar: "rgba(0,0,0,1)",
-    tabTextColorHoverBar: "rgba(0,0,0,1)",
-    barColor: "rgba(128,128,128, 1)",
-  },
-  PageHeader: {
-    titleTextColor: "rgba(240, 240, 240, 1)",
-  }
+
+
 })
 
 const opacity = computed(() => {

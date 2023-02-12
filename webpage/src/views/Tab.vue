@@ -177,6 +177,6 @@ onMounted(() => {
 
 .box-bg {
   height: 100%;
-  background: var(--body-color);
+  background: rgba(0, 0, 0, 0.2);
 }
 </style>
