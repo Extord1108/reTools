@@ -14,6 +14,7 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      /**********以下不用了***********/
       "/itapi": {
         target: "https://api.itapi.cn/api",
         pathRewrite: { "^/itapi": "" },
@@ -41,6 +42,13 @@ module.exports = {
       "/baidu": {
         target: "https://top.baidu.com/api",
         pathRewrite: { "^/baidu": "" },
+        ws: true,
+        changeOrigin: true,
+      },
+      /**********以上不用了***********/
+      "/vvhan": {
+        target: "https://api.vvhan.com/api/hotlist",
+        pathRewrite: { "^/vvhan": "" },
         ws: true,
         changeOrigin: true,
       },
