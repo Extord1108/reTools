@@ -51,7 +51,7 @@
                                 </template>
                                 <template #header-extra>
                                     <n-icon :size="20" style="cursor: move;">
-                                        <List></List>
+                                        <ReorderThreeSharp></ReorderThreeSharp>
                                     </n-icon>
                                 </template>
                                 <div v-for="(line, j) in item.content" :key="j" style="padding:0.2rem 0 ;">
@@ -77,7 +77,7 @@ import { RefreshSharp } from "@vicons/ionicons5"
 import { useNotification } from "naive-ui";
 import axios from "axios";
 import { Container, Draggable } from "vue3-smooth-dnd";
-import { List } from "@vicons/ionicons5"
+import { ReorderThreeSharp } from "@vicons/ionicons5"
 const notification = useNotification()
 const trends = ref([
     {

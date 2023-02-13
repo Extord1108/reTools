@@ -25,11 +25,18 @@
                             <n-form-item path="iconColor" label="图标颜色">
                                 <n-color-picker :show-alpha="false" :modes="['hex']" v-model:value="webModel.iconColor"></n-color-picker>
                             </n-form-item>
-                            <n-button v-if="showAdd" @click="handleButtonClick" tertiary block strong><span v-if="showAdd">添加</span><span v-if="showModify">修改</span></n-button>
+                            <n-button @click="handleButtonClick" tertiary block strong><span v-if="showAdd">添加</span><span v-if="showModify">修改</span></n-button>
                         </n-form>
                     </n-tab-pane>
                     <n-tab-pane name="app" tab="应用">
-                        暂无
+                        <div style="margin:10px ;">
+                            <n-grid :cols="12" v-for="(item, index) in widgetOptions" :key="index">
+                                <n-gi :span="1" style="font-size: 16px;">{{ item.label }}</n-gi>
+                                <n-gi :span="3">
+                                    <n-button @click="addWidget(item)">添加</n-button>
+                                </n-gi>
+                            </n-grid>
+                        </div>
                     </n-tab-pane>
                 </n-tabs>
             </n-card>
@@ -44,7 +51,7 @@ import { useMessage } from 'naive-ui';
 import { useNotification } from 'naive-ui'
 const message = useMessage()
 const notification = useNotification()
-//模态框开关相关
+/***************模态框开关相关**********/
 const props = defineProps({
     showAdd: {
         type: Boolean,
@@ -88,9 +95,9 @@ watch(selectedWeb, (newVal, oldVal) => {
         }
     }
 })
+/***************************************/
 
-
-//添加网站表单相关
+/***********添加网站表单相关*************/
 const webModel = reactive({
     name: '',
     url: '',
@@ -187,7 +194,7 @@ const addWeb = () => {
     })
     console.log(maxX, maxY)
     //换行
-    if (maxX + WofMax == 10) {
+    if (maxX + WofMax >= 9) {
         maxX = 0;
         WofMax = 0;
         maxY = maxY + 1;
@@ -248,6 +255,46 @@ const clear = () => {
     webModel.iconColor = ""
     webModel.name = ""
     iconUrl.value = ""
+}
+
+/***************************************/
+
+/*************添加组件相关***************/
+
+const widgetOptions = ref([
+    {
+        label: "天气",
+        class: "weather",
+    }
+])
+
+const addWidget = (widget) => {
+    var layout = JSON.parse(localStorage.getItem('layout'))
+    let maxNum = 0, maxX = 0, maxY = 0, WofMax, HofMax, maxI = 0;
+    //添加到最后一个图标后面
+    layout.forEach((item) => {
+        console.log(item.x, item.y)
+        if (item.y * 10 + item.x >= maxNum) {
+            maxY = item.y
+            WofMax = item.w
+            HofMax = item.h
+            maxX = item.x
+            maxNum = item.y * 10 + item.x
+        }
+        if (item.i > maxI)
+            maxI = item.i
+    })
+    console.log(maxX, maxY)
+    //换行
+    if (maxX + WofMax + 1 >= 9) {
+        maxX = 0;
+        WofMax = 0;
+        maxY = maxY + 1;
+    }
+    layout.push({ "x": maxX + WofMax, "y": maxY, "w": 2, "h": 2, "i": maxI + 1, "class": "weather", "static": false, "name": "天气" })
+    localStorage.setItem("layout", JSON.stringify(layout))
+    emits("add")
+    message.success("添加成功")
 }
 
 </script>

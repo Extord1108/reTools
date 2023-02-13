@@ -3,27 +3,30 @@
 
         <div ref="collectionBox" class="collection-box">
             <n-scrollbar style="max-height: 70vh;padding: 5px 0;">
-                <grid-layout style="min-height: 70vh;" v-model:layout="layout" :col-num="10" :is-resizable="false" :row-height="rowHeight" :is-draggable="true" :is-mirrored="false"
+                <grid-layout style="min-height: 70vh;" v-model:layout="layout" :col-num="9" :is-resizable="false" :row-height="rowHeight" :is-draggable="true" :is-mirrored="false"
                     :margin="[15, 25]" :use-css-transforms="true" :vertical-compact="true" @layout-updated="handleLayoutUpdated">
                     <grid-item v-for="item in layout" :static="item.static" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i" @move="moveEvent">
                         <div class="widget" @contextmenu="handleContextMenu" @mousedown="handleMouseDown" @mouseup="handleMouseUp" @click="handleClick(item)">
                             <n-dropdown trigger="manual" :show="webDropdownID == item.i" placement="bottom-start" :options="webOptions" :on-clickoutside="onClickoutside"
                                 @select="handleSelect">
                                 <div class="widget_inner" v-if="item.class === 'add'">
-                                    <n-icon :size="35">
+                                    <n-icon :size="40">
                                         <AddCircle />
                                     </n-icon>
                                 </div>
-                                <div class="widget_inner" v-if="item.class === 'web'" @click.right="webDropdownID = item.i">
+                                <div class="widget_inner" v-else-if="item.class === 'web'" @click.right="webDropdownID = item.i">
 
-                                    <n-image :width="35" :height="35" v-if="item.icon" :preview-disabled="true" :src="item.icon"></n-image>
-                                    <n-avatar :size="35" v-else round :color="item.iconColor">{{ item.name }}</n-avatar>
+                                    <n-image :width="40" :height="40" v-if="item.icon" :preview-disabled="true" :src="item.icon"></n-image>
+                                    <n-avatar :size="40" v-else :color="item.iconColor" style="font-weight:normal;">{{ item.name }}</n-avatar>
 
+                                </div>
+                                <div class="widget_inner" v-else-if="item.class === 'weather'" @click.right="webDropdownID = item.i">
+                                    <weather-item ref="weatherItemRef"></weather-item>
                                 </div>
                             </n-dropdown>
 
                         </div>
-                        <div class="title">{{ item.name }}</div>
+                        <div class="title"><n-text>{{ item.name }}</n-text></div>
                     </grid-item>
                 </grid-layout>
             </n-scrollbar>
@@ -36,16 +39,19 @@ import { ref, nextTick, computed, onMounted } from 'vue'
 import AddModal from './AddModal.vue';
 import { AddCircle } from "@vicons/ionicons5"
 import { NScrollbar, NIcon, NModal, NCard, NTabs } from 'naive-ui'
-import { json } from 'body-parser';
+import WeatherItem from "./WeatherItem.vue"
+import { useMessage } from 'naive-ui';
+const message = useMessage()
 const collectionBox = ref(null)
 const boxWidth = ref(690)
 const layout = ref([])
 const showAddModal = ref(false)
 const showModifyModal = ref(false)
+const weatherItemRef = ref(null)
 
 /**************布局相关**************/
 const rowHeight = computed(() => {
-    return Math.floor((boxWidth.value - 165) / 10) + 14//行高随空间宽度变化
+    return Math.floor((boxWidth.value - 150) / 9) + 14//行高随空间宽度变化
 })
 
 //自定义拖拽导致的布局改变
@@ -115,7 +121,10 @@ const onClickoutside = () => {
 const handleSelect = (key, option) => {
     if (key == "modify") {
         webInfo.value = layout.value[webDropdownID.value]
-        showModifyModal.value = true
+        if (webInfo.value.class != "web")
+            message.warning("该组件不支持修改")
+        else
+            showModifyModal.value = true
     }
     else if (key == "delete") {
         layout.value.splice(webDropdownID.value, 1)
@@ -145,6 +154,9 @@ const handleClick = (item) => {
         else if (item.class == "web") {
             window.open(item.url, "_blank")
         }
+        // else if (item.class == "weather") {
+        //     weatherItemRef.value[0].initWeatherPanel()
+        // }
         isClick = false;
     }
 }
