@@ -47,7 +47,7 @@
                         <n-collapse :default-expanded-names="[0]">
                             <n-collapse-item v-show="item.show" :title="item.name" :name="index">
                                 <template #header>
-                                    <div style="color: black;font-size: 0.8rem;">{{ item.name }}</div>
+                                    <div style="color: black;font-size: 0.9rem;">{{ item.name }}</div>
                                 </template>
                                 <template #header-extra>
                                     <n-icon :size="20" style="cursor: move;">
@@ -56,7 +56,7 @@
                                 </template>
                                 <div v-for="(line, j) in item.content" :key="j" style="padding:0.2rem 0 ;">
                                     <n-a :href="line.url" target="_blank" style="text-decoration:none;">
-                                        <n-grid :cols="12" style="font-size: 1rem;">
+                                        <n-grid :cols="12" style="font-size: 0.9rem;">
                                             <n-gi :span="1">{{ j+ 1 }}</n-gi>
                                             <n-gi :span="10">{{ line.title }}</n-gi>
                                             <n-gi :span="1"></n-gi>

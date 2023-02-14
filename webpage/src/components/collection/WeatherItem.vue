@@ -14,7 +14,7 @@
                 <n-gi :span="3"></n-gi>
                 <n-gi :span="4">
                     <i class="qi-sunny-fill" v-if="weatherInfo.weather == '晴'"></i>
-                    <i class="qi-overcast-fill" v-else-if="weatherInfo.weather == '阴天'"></i>
+                    <i class="qi-overcast-fill" v-else-if="weatherInfo.weather.indexOf('阴') != -1"></i>
                     <i class="qi-foggy-fill" v-else-if="weatherInfo.weather.indexOf('雾') != -1"></i>
                     <i class="qi-cloudy-fill" v-else-if="weatherInfo.weather.indexOf('多云') != -1"></i>
                     <i class="qi-rain-and-snow-fill" v-else-if="weatherInfo.weather == '雨夹雪'"></i>
