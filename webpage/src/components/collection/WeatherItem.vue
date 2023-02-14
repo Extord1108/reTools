@@ -61,15 +61,15 @@
             <n-grid :cols="12">
                 <n-gi :span="4">
                     <div style="font-size: 8px;">明天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[1].dayTemp }}/{{ weatherInfo.forecasts[1].nightTemp }}℃</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[1].nightTemp }}/{{ weatherInfo.forecasts[1].dayTemp }}℃</div>
                 </n-gi>
                 <n-gi :span="4">
                     <div style="font-size: 8px;">后天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[2].dayTemp }}/{{ weatherInfo.forecasts[2].nightTemp }}℃</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[2].nightTemp }}/{{ weatherInfo.forecasts[2].dayTemp }}℃</div>
                 </n-gi>
                 <n-gi :span="4">
                     <div style="font-size: 8px;">大后天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[3].dayTemp }}/{{ weatherInfo.forecasts[3].nightTemp }}℃</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[3].nightTemp }}/{{ weatherInfo.forecasts[3].dayTemp }}℃</div>
                 </n-gi>
             </n-grid>
         </div>

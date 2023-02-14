@@ -197,20 +197,16 @@ onMounted(() => {
 
             .title {
                 height: 12px;
-                font-size: 8px;
+                font-size: 0.1rem;
                 color: #ffffff;
                 text-align: center;
             }
 
             .widget {
                 height: calc(100% - 12px);
-                background-color: #ffffff55;
+                background-color: #ffffff88;
                 border-radius: 10px;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
                 font-size: 1.5rem;
                 color: #000;
                 transition: all 0.3s;
@@ -222,6 +218,11 @@ onMounted(() => {
 
             .widget_inner {
                 display: flex;
+                width: 100%;
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
             }
         }
     }

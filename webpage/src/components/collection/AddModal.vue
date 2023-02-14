@@ -29,11 +29,25 @@
                         </n-form>
                     </n-tab-pane>
                     <n-tab-pane name="app" tab="应用">
-                        <div style="margin:10px ;">
+                        <div style="margin:10px 0 20px;text-align: center;">
                             <n-grid :cols="12" v-for="(item, index) in widgetOptions" :key="index">
-                                <n-gi :span="1" style="font-size: 16px;">{{ item.label }}</n-gi>
-                                <n-gi :span="3">
-                                    <n-button @click="addWidget(item)">添加</n-button>
+                                <n-gi :span="4">
+                                    <div class="widget"><weather-item class="widget_inner"></weather-item></div>
+                                    <div class="title">
+                                        <n-grid :cols="12">
+                                            <n-gi :span="4">
+                                                {{ item.label }}
+                                            </n-gi>
+                                            <n-gi :span="4"></n-gi>
+                                            <n-gi :span="4">
+                                                <n-button @click="addWidget(item.class)">添加</n-button>
+                                            </n-gi>
+                                        </n-grid>
+                                    </div>
+                                </n-gi>
+                                <n-gi :span="4"></n-gi>
+                                <n-gi :span="4">
+
                                 </n-gi>
                             </n-grid>
                         </div>
@@ -49,6 +63,7 @@ import { AddCircle } from '@vicons/ionicons5'
 import { Service as axios } from '@/utils/http/Service.js'
 import { useMessage } from 'naive-ui';
 import { useNotification } from 'naive-ui'
+import WeatherItem from './WeatherItem.vue';
 const message = useMessage()
 const notification = useNotification()
 /***************模态框开关相关**********/
@@ -291,7 +306,7 @@ const addWidget = (widget) => {
         WofMax = 0;
         maxY = maxY + 1;
     }
-    layout.push({ "x": maxX + WofMax, "y": maxY, "w": 2, "h": 2, "i": maxI + 1, "class": "weather", "static": false, "name": "天气" })
+    layout.push({ "x": maxX + WofMax, "y": maxY, "w": 2, "h": 2, "i": maxI + 1, "class": widget, "static": false, "name": "天气" })
     localStorage.setItem("layout", JSON.stringify(layout))
     emits("add")
     message.success("添加成功")
@@ -299,5 +314,34 @@ const addWidget = (widget) => {
 
 </script>
 <style lang="less" scoped>
+.title {
+    height: 1rem;
+    font-size: 1rem;
+    color: #000;
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
 
+.widget {
+    width: 100%;
+    height: calc(100% - 1rem);
+    background-color: #ffffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+    transition: all 0.3s;
+}
+
+.widget:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.widget_inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 </style>
