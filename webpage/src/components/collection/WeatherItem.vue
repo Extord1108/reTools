@@ -33,7 +33,7 @@
                 </n-gi>
             </n-grid>
             <n-grid>
-                <n-gi style="height: 20px;"></n-gi>
+                <n-gi style="height: 10px;"></n-gi>
             </n-grid>
             <n-grid :cols="12" style="line-height: 18px;">
                 <n-gi :span="4">
@@ -55,6 +55,23 @@
                     <div style="font-size: 14px;">{{ weatherInfo.windPower }}级</div>
                 </n-gi>
             </n-grid>
+            <n-grid>
+                <n-gi style="height: 10px;"></n-gi>
+            </n-grid>
+            <n-grid :cols="12">
+                <n-gi :span="4">
+                    <div style="font-size: 8px;">明天</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[1].dayTemp }}/{{ weatherInfo.forecasts[1].nightTemp }}℃</div>
+                </n-gi>
+                <n-gi :span="4">
+                    <div style="font-size: 8px;">后天</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[2].dayTemp }}/{{ weatherInfo.forecasts[2].nightTemp }}℃</div>
+                </n-gi>
+                <n-gi :span="4">
+                    <div style="font-size: 8px;">大后天</div>
+                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[3].dayTemp }}/{{ weatherInfo.forecasts[3].nightTemp }}℃</div>
+                </n-gi>
+            </n-grid>
         </div>
         <n-modal v-model:show="showModal">
 
@@ -73,7 +90,7 @@ import { LocationSharp } from "@vicons/ionicons5"
 import keys from "@/utils/keys/keys.json"
 const weatherInfo = ref({
     city: "",
-    forecasts: [{ dayTemp: "", nightTemp: "" }],
+    forecasts: [{ dayTemp: "", nightTemp: "" }, { dayTemp: "", nightTemp: "" }, { dayTemp: "", nightTemp: "" }, { dayTemp: "", nightTemp: "" }],
     temperature: "",
     weather: "",
     windPower: ""
@@ -127,10 +144,14 @@ const initMap = () => {
                     console.log(result)
                     AMap.plugin('AMap.Weather', function () {
                         var weather = new AMap.Weather()
+                        if (result.adcode == 371200) {
+                            result.adcode = 370100
+                            result.city = "济南市"
+                        }
                         weatherInfo.value.city = result.city
                         let actArr = []
-                        actArr.push(getForecast(weather, result.city))
-                        actArr.push(getLive(weather, result.city))
+                        actArr.push(getForecast(weather, result.adcode))
+                        actArr.push(getLive(weather, result.adcode))
 
                         Promise.all(actArr).then(() => {
                             localStorage.setItem("weather", JSON.stringify(weatherInfo.value))

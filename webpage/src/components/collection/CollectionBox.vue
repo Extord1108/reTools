@@ -196,14 +196,14 @@ onMounted(() => {
             cursor: pointer !important;
 
             .title {
-                height: 20%;
+                height: 12px;
                 font-size: 8px;
                 color: #ffffff;
                 text-align: center;
             }
 
             .widget {
-                height: 80%;
+                height: calc(100% - 12px);
                 background-color: #ffffff55;
                 border-radius: 10px;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
