@@ -218,8 +218,8 @@ onMounted(() => {
     ambiguity.value = parseFloat(bgAmbiguity);
   }
   const tempOnlySearch = localStorage.getItem("onlySearch")
-  if (tempOnlySearch) {
-    onlySearch.value = tempOnlySearch
+  if (tempOnlySearch != null) {
+    onlySearch.value = tempOnlySearch == "false" ? false : true
   }
   const username = localStorage.getItem("username");
   if (username) {
