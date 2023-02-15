@@ -1,9 +1,9 @@
 <template>
   <div>
     <div id="avatar">
-      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="50">
+      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="45">
         <n-icon color="#ffffff80">
-          <person-circle-sharp />
+          <SettingsSharp />
         </n-icon>
       </n-avatar>
       <n-avatar v-else round :src="avatar" @click="showPanel">
@@ -19,10 +19,10 @@
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
     </div>
-    <div id="content">
+    <div id="content" :style="{ marginTop: onlySearch ? '8rem' : 0, position: 'relative', transition: 'all 0.3s' }">
       <Date></Date>
       <Search></Search>
-      <n-grid :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 34rem;" :cols="48">
+      <n-grid v-if="!onlySearch" :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 34rem;" :cols="48">
         <n-gi :span="1"></n-gi>
         <n-gi :span="12">
           <n-el tag="div" class="box-bg">
@@ -50,9 +50,9 @@
   </div>
 </template>
 <script setup>
-import { PersonCircleSharp } from "@vicons/ionicons5";
+import { SettingsSharp } from "@vicons/ionicons5";
 import { NAvatar } from "naive-ui";
-import { onMounted, ref, reactive, computed } from "vue";
+import { onMounted, ref, reactive, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { mediaURL } from "@/utils/http/Service.js"
 import Date from "@/components/Date.vue";
@@ -98,6 +98,10 @@ const wallpaper = computed(() => {
   }
   else
     return null;
+})
+
+const onlySearch = computed(() => {
+  return store.getters.getOnlySearch
 })
 
 onMounted(() => {
@@ -178,5 +182,7 @@ onMounted(() => {
 .box-bg {
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
 }
 </style>

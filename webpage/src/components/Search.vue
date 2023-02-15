@@ -6,7 +6,7 @@
                 <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange" @focus="handleInputFocus" @click="showSearchSuggest = true"
                     @blur="isSearchIconShow = false" @keyup.enter="search" clearable style="max-width: 35rem;min-width: 35rem;height: 2.5rem;">
                     <template #prefix>
-                        <n-dropdown :render-label="renderButton" :render-icon="null" trigger="hover" :options="searchWays" :on-select="handleSearchSelected">
+                        <n-dropdown id="icon-menu" :render-label="renderButton" :render-icon="null" trigger="hover" :options="searchWays" :on-select="handleSearchSelected">
                             <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />
                         </n-dropdown>
                     </template>
@@ -164,5 +164,10 @@ const search = () => {
             cursor: default;
         }
     }
+}
+</style>
+<style>
+#icon-menu {
+    background-color: rgba(255, 255, 255, 0.5) !important;
 }
 </style>

@@ -30,9 +30,6 @@ const themeOverrides = ref({
     color: "rgba(255, 255, 255, 0.5)",
     caretColor: "#0",
   },
-  Dropdown: {
-    color: "rgba(255, 255, 255, 0.5)",
-  },
   Button: {
     textColorText: "rgba(240, 240, 240, 1)",
     textColorTextPressed: "rgba(240, 240, 240, 1)",
@@ -90,7 +87,8 @@ watch(ambiguity, (val) => {
 body {
   margin: 0;
   padding: 0;
-  border: 0
+  border: 0;
+  overflow: hidden;
 }
 
 

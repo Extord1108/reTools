@@ -6,7 +6,7 @@
           <arrow-back-circle-outline />
         </n-icon>
       </div>
-      <div class="user">
+      <!-- <div class="user">
         <n-avatar color="#00000000" :size="40" round v-if="!avatar">
           <n-icon color="#ffffff80">
             <person-circle-sharp />
@@ -26,14 +26,16 @@
           </n-button>
         </n-button-group>
       </div>
-      <n-divider style="padding:0 2rem 0 2rem;"></n-divider>
+      <n-divider style="padding:0 2rem 0 2rem;"></n-divider> -->
       <div class="setting">
-        <n-h4 prefix="bar">
+        <n-h3 prefix="bar">
           <n-text>
             设置
           </n-text>
-        </n-h4>
+        </n-h3>
         <n-space vertical>
+          <n-text>仅搜索框</n-text>
+          <n-switch v-model:value="onlySearch" />
           <n-text>遮罩深度</n-text>
           <n-slider v-model:value="opacity" :max="1" :step="0.05" />
           <n-text>背景模糊度</n-text>
@@ -48,10 +50,9 @@
             </n-upload>-->
 
           </n-space>
-
         </n-space>
       </div>
-      <n-divider style="padding:0 2rem 0 2rem;"></n-divider>
+      <!-- <n-divider style="padding:0 2rem 0 2rem;"></n-divider> -->
     </n-el>
     <n-modal v-model:show="showLoginModal">
       <login-modal @close-modal="closeLoginModal" @login-success="loginSuccess"></login-modal>
@@ -95,6 +96,7 @@ const store = useStore(); //全局变量
 const panel = ref(); //组件实例
 const opacity = ref(0.2);
 const ambiguity = ref(0);
+const onlySearch = ref(false);
 const loading = ref(false); //切换壁纸时加载
 const panelPos = reactive({ left: "calc(-20% - 10px)" });
 const showLoginModal = ref(false); //登录模态框
@@ -200,6 +202,12 @@ watch(ambiguity, (val) => {
   store.commit("changeAmbiguity", val);
 });
 
+//监听是否仅保留搜索框
+watch(onlySearch, (val) => {
+  store.commit("changeOnlySearch", val);
+  localStorage.setItem("onlySearch", val)
+});
+
 onMounted(() => {
   const bgOpacity = localStorage.getItem("bgOpacity");
   if (bgOpacity) {
@@ -208,6 +216,10 @@ onMounted(() => {
   const bgAmbiguity = localStorage.getItem("ambiguity");
   if (ambiguity) {
     ambiguity.value = parseFloat(bgAmbiguity);
+  }
+  const tempOnlySearch = localStorage.getItem("onlySearch")
+  if (tempOnlySearch) {
+    onlySearch.value = tempOnlySearch
   }
   const username = localStorage.getItem("username");
   if (username) {
