@@ -2,9 +2,9 @@
     <div>
 
         <div ref="collectionBox" class="collection-box">
-            <n-scrollbar style="max-height: 70vh;padding: 5px 0;">
-                <grid-layout style="min-height: 70vh;" v-model:layout="layout" :col-num="9" :is-resizable="false" :row-height="rowHeight" :is-draggable="true" :is-mirrored="false"
-                    :margin="[15, 25]" :use-css-transforms="true" :vertical-compact="true" @layout-updated="handleLayoutUpdated">
+            <n-scrollbar style="max-height: calc((100vh - 9rem) - 80px);padding: 5px 0;">
+                <grid-layout style="min-height: calc((100vh - 9rem) - 80px);" v-model:layout="layout" :col-num="9" :is-resizable="false" :row-height="rowHeight" :is-draggable="true"
+                    :is-mirrored="false" :margin="[15, 25]" :use-css-transforms="true" :vertical-compact="true" @layout-updated="handleLayoutUpdated">
                     <grid-item v-for="item in layout" :static="item.static" :x="item.x" :y="item.y" :w="item.w" :h="item.h" :i="item.i" :key="item.i" @move="moveEvent">
                         <div class="widget" @contextmenu="handleContextMenu" @mousedown="handleMouseDown" @mouseup="handleMouseUp" @click="handleClick(item)">
                             <n-dropdown trigger="manual" :show="webDropdownID == item.i" placement="bottom-start" :options="webOptions" :on-clickoutside="onClickoutside"
@@ -32,7 +32,7 @@
             </n-scrollbar>
         </div>
         <add-modal v-model:showAdd="showAddModal" v-model:showModify="showModifyModal" :webInfo="webInfo" @add="loadLayout"></add-modal>
-    </div>
+</div>
 </template>
 <script setup>
 import { ref, nextTick, computed, onMounted } from 'vue'

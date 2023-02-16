@@ -5,7 +5,7 @@
         <router-view></router-view>
       </n-notification-provider>
     </n-message-provider>
-  </n-config-provider>
+</n-config-provider>
 </template>
 <script setup>
 import { NConfigProvider } from 'naive-ui'
@@ -88,7 +88,6 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  overflow: hidden;
 }
 
 

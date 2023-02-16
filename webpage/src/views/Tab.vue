@@ -14,7 +14,8 @@
     </div>
     <div id="background">
       <img style="overflow: hidden;" v-if="wallpaper" :src="wallpaper" alt="">
-      <img v-else :src="bgImg" alt="背景图片加载失败">
+      <!-- <img v-else :src="bgImg" alt="背景图片加载失败"> -->
+      <div v-else :style="{ backgroundImage: 'url(' + bgImg + ')' }" class="bgimg"></div>
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
@@ -22,7 +23,7 @@
     <div id="content" :style="{ marginTop: onlySearch ? '8rem' : 0, position: 'relative', transition: 'all 0.3s' }">
       <Date></Date>
       <Search></Search>
-      <n-grid v-if="!onlySearch" :x-gap="24" style="position: absolute;top: 10rem;width:100%;height: 34rem;" :cols="48">
+      <n-grid v-if="!onlySearch" :x-gap="24" style="position: absolute;top: 10rem;width:100%;height:calc(100vh - 10rem - 30px);" :cols="48">
         <n-gi :span="1"></n-gi>
         <n-gi :span="12">
           <n-el tag="div" class="box-bg">
@@ -47,7 +48,7 @@
         <a href="http://beian.miit.gov.cn/" target="_blank">鲁ICP备2022027913号</a>
       </div>
     </div>
-  </div>
+</div>
 </template>
 <script setup>
 import { SettingsSharp } from "@vicons/ionicons5";
@@ -123,6 +124,7 @@ onMounted(() => {
 }
 
 #background {
+  background-image: url();
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -130,7 +132,7 @@ onMounted(() => {
   left: 0;
   z-index: -9999;
 
-  img {
+  .bgimg {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -147,6 +149,7 @@ onMounted(() => {
     height: 100%;
     background: var(--body-color);
     backdrop-filter: blur(var(--body-ambiguity));
+    background-repeat: no-repeat;
   }
 }
 
@@ -183,6 +186,6 @@ onMounted(() => {
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  backdrop-filter: blur(5px);
+  box-shadow: 0px 0px 20px #ffffff44;
 }
 </style>
