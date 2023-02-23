@@ -21,7 +21,10 @@
 
                                 </div>
                                 <div class="widget_inner" v-else-if="item.class === 'weather'" @click.right="webDropdownID = item.i">
-                                    <weather-item ref="weatherItemRef"></weather-item>
+                                    <weather-item></weather-item>
+                                </div>
+                                <div class="widget_inner" v-else-if="item.class === 'translate'" @click.right="webDropdownID = item.i">
+                                    <translate-item></translate-item>
                                 </div>
                             </n-dropdown>
 
@@ -32,7 +35,7 @@
             </n-scrollbar>
         </div>
         <add-modal v-model:showAdd="showAddModal" v-model:showModify="showModifyModal" :webInfo="webInfo" @add="loadLayout"></add-modal>
-</div>
+    </div>
 </template>
 <script setup>
 import { ref, nextTick, computed, onMounted } from 'vue'
@@ -40,14 +43,16 @@ import AddModal from './AddModal.vue';
 import { AddCircle } from "@vicons/ionicons5"
 import { NScrollbar, NIcon, NModal, NCard, NTabs } from 'naive-ui'
 import WeatherItem from "./WeatherItem.vue"
+import TranslateItem from './TranslateItem.vue';
 import { useMessage } from 'naive-ui';
+import { useDialog } from 'naive-ui'
+const dialog = useDialog()
 const message = useMessage()
 const collectionBox = ref(null)
 const boxWidth = ref(690)
 const layout = ref([])
 const showAddModal = ref(false)
 const showModifyModal = ref(false)
-const weatherItemRef = ref(null)
 
 /**************布局相关**************/
 const rowHeight = computed(() => {
@@ -154,11 +159,23 @@ const handleClick = (item) => {
         else if (item.class == "web") {
             window.open(item.url, "_blank")
         }
-        // else if (item.class == "weather") {
-        //     weatherItemRef.value[0].initWeatherPanel()
-        // }
+        else if (item.class == "weather") {
+            jumpToWeather()
+        }
         isClick = false;
     }
+}
+
+const jumpToWeather = () => {
+    dialog.success({
+        title: '天气',
+        content: '是否打开中国天气网',
+        positiveText: '确定',
+        negativeText: '取消',
+        onPositiveClick: () => {
+            window.open("http://www.weather.com.cn/", "_blank")
+        }
+    })
 }
 
 onMounted(() => {

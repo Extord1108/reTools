@@ -124,7 +124,6 @@ onMounted(() => {
 }
 
 #background {
-  background-image: url();
   height: 100vh;
   width: 100vw;
   position: absolute;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <n-modal v-model:show="showModal" style="width: 35%;" @update:show="closeModal">
+        <n-modal v-model:show="showModal" style="width: 30rem;" @update:show="closeModal">
             <n-card>
                 <n-tabs default-value="web">
                     <n-tab-pane name="web" tab="网站">
@@ -30,26 +30,28 @@
                     </n-tab-pane>
                     <n-tab-pane name="app" tab="应用">
                         <div style="margin:10px 0 20px;text-align: center;">
-                            <n-grid :cols="12" v-for="(item, index) in widgetOptions" :key="index">
-                                <n-gi :span="4">
-                                    <div class="widget"><weather-item class="widget_inner"></weather-item></div>
-                                    <div class="title">
-                                        <n-grid :cols="12">
-                                            <n-gi :span="4">
-                                                {{ item.label }}
-                                            </n-gi>
-                                            <n-gi :span="4"></n-gi>
-                                            <n-gi :span="4">
-                                                <n-button @click="addWidget(item.class)">添加</n-button>
-                                            </n-gi>
-                                        </n-grid>
-                                    </div>
-                                </n-gi>
-                                <n-gi :span="4"></n-gi>
-                                <n-gi :span="4">
-
-                                </n-gi>
-                            </n-grid>
+                            <n-space vertical>
+                                <n-thing v-for="(item, index) in widgetOptions" :key="index">
+                                    <template #header>
+                                        <div>
+                                            {{ item.label }}
+                                        </div>
+                                    </template>
+                                    <template #description>
+                                        <div class="item-container">
+                                            <div class="widget">
+                                                <weather-item v-if="item.class == 'weather'" class="widget_inner"></weather-item>
+                                                <translate-item v-else-if="item.class == 'translate'" class="widget_inner"></translate-item>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template #header-extra>
+                                        <div>
+                                            <n-button @click="addWidget(item)">添加</n-button>
+                                        </div>
+                                    </template>
+                                </n-thing>
+                            </n-space>
                         </div>
                     </n-tab-pane>
                 </n-tabs>
@@ -64,6 +66,7 @@ import { Service as axios } from '@/utils/http/Service.js'
 import { useMessage } from 'naive-ui';
 import { useNotification } from 'naive-ui'
 import WeatherItem from './WeatherItem.vue';
+import TranslateItem from './TranslateItem.vue';
 const message = useMessage()
 const notification = useNotification()
 /***************模态框开关相关**********/
@@ -280,6 +283,14 @@ const widgetOptions = ref([
     {
         label: "天气",
         class: "weather",
+        w: 2,
+        h: 2,
+    },
+    {
+        label: "翻译",
+        class: "translate",
+        w: 4,
+        h: 2
     }
 ])
 
@@ -301,12 +312,12 @@ const addWidget = (widget) => {
     })
     console.log(maxX, maxY)
     //换行
-    if (maxX + WofMax + 1 >= 9) {
+    if (maxX + WofMax + widget.w - 1 >= 9) {
         maxX = 0;
         WofMax = 0;
         maxY = maxY + 1;
     }
-    layout.push({ "x": maxX + WofMax, "y": maxY, "w": 2, "h": 2, "i": maxI + 1, "class": widget, "static": false, "name": "天气" })
+    layout.push({ "x": maxX + WofMax, "y": maxY, "w": widget.w, "h": widget.h, "i": maxI + 1, "class": widget.class, "static": false, "name": widget.label })
     localStorage.setItem("layout", JSON.stringify(layout))
     emits("add")
     message.success("添加成功")
@@ -322,18 +333,11 @@ const addWidget = (widget) => {
     margin: 10px 0 10px 0;
 }
 
-.widget {
-    width: 100%;
-    height: calc(100% - 1rem);
-    background-color: #ffffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    font-size: 1.5rem;
-    transition: all 0.3s;
-}
+.item-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.widget:hover {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .widget_inner {
@@ -343,5 +347,18 @@ const addWidget = (widget) => {
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+
+.widget {
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+    transition: all 0.3s;
+}
+
+.widget:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 </style>
