@@ -3,12 +3,12 @@
         <div>
             <n-grid :cols="12" style="text-align: center;">
                 <n-gi :span="5">
-                    <div style="font-size: 24px;font-weight: bold;">{{ weatherInfo.temperature }}℃</div>
-                    <div style="line-height: 14px;display: flex;">
+                    <div style="font-size: 1.5vw;font-weight: bold;">{{ weatherInfo.temperature }}℃</div>
+                    <div style="line-height: 0.9vw;display: flex;">
                         <n-icon :size="14">
                             <LocationSharp></LocationSharp>
                         </n-icon>
-                        <span style="font-size: 12px;">{{ weatherInfo.city }}</span>
+                        <span style="font-size: 0.75vw;">{{ weatherInfo.city }}</span>
                     </div>
                 </n-gi>
                 <n-gi :span="3"></n-gi>
@@ -29,21 +29,21 @@
                     <i class="qi-snowstorm-fill" v-else-if="weatherInfo.weather == '暴雪'"></i>
                     <i class="qi-hail-fill" v-else-if="weatherInfo.weather == '冰雹'"></i>
 
-                    <div style="font-size: 12px;line-height: 14px;text-align: center;">{{ weatherInfo.weather }}</div>
+                    <div style="font-size: 0.75vw;line-height: 0.9vw;text-align: center;">{{ weatherInfo.weather }}</div>
                 </n-gi>
             </n-grid>
             <n-grid>
-                <n-gi style="height: 10px;"></n-gi>
+                <n-gi style="height: 0.625vw;"></n-gi>
             </n-grid>
-            <n-grid :cols="12" style="line-height: 18px;">
+            <n-grid :cols="12" style="line-height: 1.2vw;">
                 <n-gi :span="4">
-                    <i class="qi-high-temperature" style="font-size: 18px;"></i>
-                    <div style="font-size: 14px;">{{ weatherInfo.forecasts[0].dayTemp }}℃</div>
+                    <i class="qi-high-temperature" style="font-size: 1.2vw;"></i>
+                    <div style="font-size: 0.9vw;">{{ weatherInfo.forecasts[0].dayTemp }}℃</div>
 
                 </n-gi>
                 <n-gi :span="4">
-                    <i class="qi-low-temperature" style="font-size: 18px;"></i>
-                    <div style="font-size: 14px;">{{ weatherInfo.forecasts[0].nightTemp }}℃</div>
+                    <i class="qi-low-temperature" style="font-size: 1.2vw;"></i>
+                    <div style="font-size: 0.9vw;">{{ weatherInfo.forecasts[0].nightTemp }}℃</div>
 
                 </n-gi>
                 <n-gi :span="4">
@@ -52,24 +52,24 @@
                         <path
                             d="M11.079 8.375A2.5 2.5 0 0 1 16 9c0 1.397-1.24 2.5-2.5 2.5H.5a.5.5 0 0 1 0-1h13c.74 0 1.5-.688 1.5-1.5a1.5 1.5 0 0 0-2.953-.375.5.5 0 1 1-.968-.25ZM2.5 12.5A.5.5 0 0 1 3 12h8a2 2 0 1 1-1.886 2.667.5.5 0 1 1 .943-.334A1 1 0 1 0 11 13H3a.5.5 0 0 1-.5-.5Z" />
                     </svg>
-                    <div style="font-size: 14px;">{{ weatherInfo.windPower }}级</div>
+                    <div style="font-size: 0.9vw;">{{ weatherInfo.windPower }}级</div>
                 </n-gi>
             </n-grid>
             <n-grid>
-                <n-gi style="height: 10px;"></n-gi>
+                <n-gi style="height: 0.625vw;"></n-gi>
             </n-grid>
             <n-grid :cols="12">
                 <n-gi :span="4">
-                    <div style="font-size: 8px;">明天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[1].nightTemp }}/{{ weatherInfo.forecasts[1].dayTemp }}℃</div>
+                    <div style="font-size: 0.6vw;">明天</div>
+                    <div style="font-size: 0.6vw;">{{ weatherInfo.forecasts[1].nightTemp }}/{{ weatherInfo.forecasts[1].dayTemp }}℃</div>
                 </n-gi>
                 <n-gi :span="4">
-                    <div style="font-size: 8px;">后天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[2].nightTemp }}/{{ weatherInfo.forecasts[2].dayTemp }}℃</div>
+                    <div style="font-size: 0.6vw;">后天</div>
+                    <div style="font-size: 0.6vw;">{{ weatherInfo.forecasts[2].nightTemp }}/{{ weatherInfo.forecasts[2].dayTemp }}℃</div>
                 </n-gi>
                 <n-gi :span="4">
-                    <div style="font-size: 8px;">大后天</div>
-                    <div style="font-size: 8px;">{{ weatherInfo.forecasts[3].nightTemp }}/{{ weatherInfo.forecasts[3].dayTemp }}℃</div>
+                    <div style="font-size: 0.6vw;">大后天</div>
+                    <div style="font-size: 0.6vw;">{{ weatherInfo.forecasts[3].nightTemp }}/{{ weatherInfo.forecasts[3].dayTemp }}℃</div>
                 </n-gi>
             </n-grid>
         </div>
@@ -229,4 +229,8 @@ onMounted(() => {
 
 
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+[class^="qi-"] {
+    font-size: 1.55vw;
+}
+</style>

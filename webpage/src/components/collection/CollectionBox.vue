@@ -24,7 +24,7 @@
                                     <weather-item></weather-item>
                                 </div>
                                 <div class="widget_inner" v-else-if="item.class === 'translate'" @click.right="webDropdownID = item.i">
-                                    <translate-item></translate-item>
+                                    <translate-item @inputing="item.static = true" @inputend="item.static = false"></translate-item>
                                 </div>
                             </n-dropdown>
 
@@ -162,6 +162,9 @@ const handleClick = (item) => {
         else if (item.class == "weather") {
             jumpToWeather()
         }
+        else if (item.class == "translate") {
+            jumpToTranslate()
+        }
         isClick = false;
     }
 }
@@ -174,6 +177,18 @@ const jumpToWeather = () => {
         negativeText: '取消',
         onPositiveClick: () => {
             window.open("http://www.weather.com.cn/", "_blank")
+        }
+    })
+}
+
+const jumpToTranslate = () => {
+    dialog.success({
+        title: '翻译',
+        content: '是否打开百度翻译',
+        positiveText: '确定',
+        negativeText: '取消',
+        onPositiveClick: () => {
+            window.open("https://fanyi.baidu.com/", "_blank")
         }
     })
 }

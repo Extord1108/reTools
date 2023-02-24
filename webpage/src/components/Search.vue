@@ -2,9 +2,9 @@
     <div>
         <div class="search-box">
             <n-dropdown :show="showSearchSuggest && searchSuggest.length > 0" :options="searchSuggest" placement="bottom-start" :on-select="handleSuggestSelected"
-                @clickoutside="showSearchSuggest = false" style="width: 35rem;">
+                @clickoutside="showSearchSuggest = false" style="width: 35vw;">
                 <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange" @focus="handleInputFocus" @click="showSearchSuggest = true"
-                    @blur="isSearchIconShow = false" @keyup.enter="search" clearable style="max-width: 35rem;min-width: 35rem;height: 2.5rem;">
+                    @blur="isSearchIconShow = false" @keyup.enter="search" clearable style="max-width: 35vw;min-width: 35vw;height: 5vh;">
                     <template #prefix>
                         <n-dropdown id="icon-menu" :render-label="renderButton" :render-icon="null" trigger="hover" :options="searchWays" :on-select="handleSearchSelected">
                             <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />

@@ -334,6 +334,7 @@ const addWidget = (widget) => {
 }
 
 .item-container {
+    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
