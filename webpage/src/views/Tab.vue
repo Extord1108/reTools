@@ -14,8 +14,8 @@
     </div>
     <div id="background">
       <img style="overflow: hidden;" v-if="wallpaper" :src="wallpaper" alt="">
-      <!-- <img v-else :src="bgImg" alt="背景图片加载失败"> -->
-      <div v-else :style="{ backgroundImage: 'url(' + bgImg + ')' }" class="bgimg"></div>
+      <img v-else :src="bgImg" alt="背景图片加载失败" class="bgimg">
+      <!-- <div v-else :style="{ backgroundImage: 'url(' + bgImg + ')' }" class="bgimg"></div> -->
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
@@ -48,7 +48,7 @@
         <a href="http://beian.miit.gov.cn/" target="_blank">鲁ICP备2022027913号</a>
       </div>
     </div>
-</div>
+  </div>
 </template>
 <script setup>
 import { SettingsSharp } from "@vicons/ionicons5";

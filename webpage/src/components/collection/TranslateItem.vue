@@ -6,7 +6,7 @@
             <n-input @mousedown="emits('inputing')" @click.stop @mouseup="emits('inputend')" v-model:value="toValue" type="textarea" placeholder="" :rows="rows2" readonly>
                 <template #suffix>
                     <div style="height: 80%; display: flex; justify-content: flex-end;align-items: flex-end;">
-                        <n-button text color="#343438" @click="copy">
+                        <n-button text color="#343438" @click="copy" style="font-weight: bold;">
                             <n-icon size="20">
                                 <copy-outline />
                             </n-icon>
@@ -47,7 +47,7 @@ const handleInputChange = (str) => {
         let salt = (new Date).getTime()
         let sign = keys.baidu.app_id + str + salt + keys.baidu.app_key
         sign = md5(sign)
-        jsonp('http://api.fanyi.baidu.com/api/trans/vip/translate', {
+        jsonp('https://api.fanyi.baidu.com/api/trans/vip/translate', {
             q: str,
             from: "auto",
             to: getLang(str),
@@ -96,7 +96,7 @@ onMounted(() => {
 <style lang="less" scoped>
 ::v-deep .n-input {
     background-color: transparent !important;
-    --n-border: 1px solid rgba(52, 52, 56, 1) !important;
+    --n-border: 2px solid black !important;
     width: 16vw;
     text-align: left;
 
