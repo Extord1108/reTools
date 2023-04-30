@@ -4,7 +4,7 @@
             <n-dropdown :show="showSearchSuggest && searchSuggest.length > 0" :options="searchSuggest" placement="bottom-start" :on-select="handleSuggestSelected"
                 @clickoutside="showSearchSuggest = false" style="width: 35vw;">
                 <n-input type="text" placeholder="" autosize v-model:value="searchKeyword" @input="handleInputChange" @focus="handleInputFocus" @click="showSearchSuggest = true"
-                    @blur="isSearchIconShow = false" @keyup.enter="search" clearable style="max-width: 35vw;min-width: 35vw;height: 5vh;">
+                    @blur="isSearchIconShow = false" @keydown.tab="changeEngine" @keyup.enter="search" clearable style="max-width: 35vw;min-width: 35vw;height: 5vh;">
                     <template #prefix>
                         <n-dropdown id="icon-menu" :render-label="renderButton" :render-icon="null" trigger="hover" :options="searchWays" :on-select="handleSearchSelected">
                             <n-avatar :src="selectedNow.src" size="small" color="rbga(255,255,255,0)" />
@@ -89,11 +89,13 @@ const selectedList = ref({
 //选中的搜索引擎
 const selectedNow = ref({
     src: baidu,
-    url: 'https://www.baidu.com/s?cb=window.bdsug.sug&wd='
+    url: 'https://www.baidu.com/s?cb=window.bdsug.sug&wd=',
+    key: 'baidu'
 })
 //处理选择事件
 const handleSearchSelected = (key) => {
     selectedNow.value = selectedList.value[key]
+    selectedNow.value.key = key
 }
 
 const handleInputFocus = () => {
@@ -142,6 +144,24 @@ const search = () => {
     window.open(selectedNow.value.url + searchKeyword.value.replace(/%/g, "%25").replace(/\+/g, "%2B").replace(/#/g, "%23").replace(/&/g, "%26").replace(/\?/g, "%3F").replace(/=/g, "%3D").replace(/ /g, "+"))
     searchKeyword.value = ''
     searchSuggest.value.length = 0
+}
+
+//切换搜索引擎
+const changeEngine = (event) => {
+    event.preventDefault()
+    console.log(event)
+    let index = searchWays.value.findIndex((item) => {
+        return item.key == selectedNow.value.key
+    })
+    if (index == searchWays.value.length - 1) {
+        index = 0
+    } else {
+        index++
+    }
+    selectedNow.value.key = searchWays.value[index].key
+    selectedNow.value.src = selectedList.value[selectedNow.value.key].src
+    selectedNow.value.url = selectedList.value[selectedNow.value.key].url
+    event.target.focus()
 }
 </script>
 <style lang="less" scoped>

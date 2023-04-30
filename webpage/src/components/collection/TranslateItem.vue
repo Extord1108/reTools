@@ -1,7 +1,7 @@
 <template>
     <div>
         <n-space vertical class="input-box">
-            <n-input @focus="emits('inputing')" @blur="emits('inputend')" @click.stop v-model:value="fromValue" type="textarea" placeholder="输入文字(仅支持中英文互译)" :rows="rows1" clearable
+            <n-input @focus="emits('inputing')" @blur="emits('inputend')" @click.stop v-model:value="fromValue" type="textarea" placeholder="输入文字(仅支持中译英和其他译中)" :rows="rows1" clearable
                 @update:value="handleInputChange" />
             <n-input @mousedown="emits('inputing')" @click.stop @mouseup="emits('inputend')" v-model:value="toValue" type="textarea" placeholder="" :rows="rows2" readonly>
                 <template #suffix>
