@@ -74,15 +74,16 @@ const getBgImg = () => {
   const width = document.documentElement.clientWidth;
   const height = document.documentElement.clientHeight;
   //随机数
-  const random = 1 + Math.floor(Math.random() * 2);
-  switch (random) {
-    case 1:
-      bgImg.value = `https://bing.img.run/rand.php`;
-      break;
-    case 2:
-      bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
-      break;
-  }
+  // const random = 1 + Math.floor(Math.random() * 2);
+  // switch (random) {
+  //   case 1:
+  //     bgImg.value = `https://bing.img.run/rand.php`;
+  //     break;
+  //   case 2:
+  //     bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
+  //     break;
+  // }
+  bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
 };
 
 const avatar = computed(() => {
