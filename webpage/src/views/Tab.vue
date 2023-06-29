@@ -37,7 +37,9 @@
 
         </n-gi>
         <n-gi :span="12">
-          <n-el tag="div" class="box-bg"></n-el>
+          <n-el tag="div" class="box-bg">
+            <TodoBox></TodoBox>
+          </n-el>
         </n-gi>
         <n-gi :span="1"></n-gi>
       </n-grid>
@@ -61,6 +63,7 @@ import Search from "@/components/Search.vue";
 import CollectionBox from "@/components/collection/CollectionBox.vue";
 import TrendBox from "@/components/Trend/TrendBox.vue";
 import Panel from "@/components/Panel.vue";
+import TodoBox from "../components/Todo/TodoBox.vue";
 const store = useStore();
 const bgImg = ref("");
 const isPanelShow = reactive({ value: false });
@@ -83,7 +86,7 @@ const getBgImg = () => {
   //     bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
   //     break;
   // }
-  bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
+  bgImg.value = `https://picsum.photos/${width}/${height}`;
 };
 
 const avatar = computed(() => {
