@@ -38,7 +38,7 @@
         </n-gi>
         <n-gi :span="12">
           <n-el tag="div" class="box-bg">
-            <TodoBox></TodoBox>
+            <ChatBox></ChatBox>
           </n-el>
         </n-gi>
         <n-gi :span="1"></n-gi>
@@ -63,7 +63,7 @@ import Search from "@/components/Search.vue";
 import CollectionBox from "@/components/collection/CollectionBox.vue";
 import TrendBox from "@/components/Trend/TrendBox.vue";
 import Panel from "@/components/Panel.vue";
-import TodoBox from "../components/Todo/TodoBox.vue";
+import ChatBox from "../components/Chat/ChatBox.vue";
 const store = useStore();
 const bgImg = ref("");
 const isPanelShow = reactive({ value: false });
@@ -130,6 +130,7 @@ onMounted(() => {
 #background {
   height: 100vh;
   width: 100vw;
+  min-width: 1080px;
   position: absolute;
   top: 0;
   left: 0;
@@ -154,6 +155,10 @@ onMounted(() => {
     backdrop-filter: blur(var(--body-ambiguity));
     background-repeat: no-repeat;
   }
+}
+
+#content {
+  min-width: 1080px;
 }
 
 #date {

@@ -229,7 +229,7 @@ onMounted(() => {
 
             .title {
                 height: 12px;
-                font-size: 0.1rem;
+                font-size: 0.75rem;
                 color: #ffffff;
                 text-align: center;
             }

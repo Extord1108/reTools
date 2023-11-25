@@ -9,7 +9,7 @@ module.exports = {
         changeOrigin: true,
       },
       "/api": {
-        target: "http://localhost:4000",
+        target: "http://chat.extord.space/api",
         pathRewrite: { "^/api": "" },
         ws: true,
         changeOrigin: true,

@@ -26,22 +26,6 @@
         </div>
         <div>
             <n-scrollbar style="max-height:calc((100vh - 11rem) - 100px) ;margin-top: 10px;">
-                <!-- <n-collapse :default-expanded-names="[0]">
-                                                            <n-collapse-item v-for="( item, index) in trends" :key="index" v-show="item.show" :title="item.name" :name="index">
-                                                                <template #header>
-                                                                    <div style="color: black;font-size: 14px;">{{ item.name }}</div>
-                                                                </template>
-                                                                <div v-for="(line, j) in item.content" :key="j" style="padding:0.2rem 0 ;">
-                                                                    <n-a :href="line.url" target="_blank" style="text-decoration:none;">
-                                                                        <n-grid :cols="12">
-                                                                            <n-gi :span="1">{{ j+ 1 }}</n-gi>
-                                                                            <n-gi :span="10">{{ line.title }}</n-gi>
-                                                                            <n-gi :span="1"></n-gi>
-                                                                        </n-grid>
-                                                                    </n-a>
-                                                                </div>
-                                                            </n-collapse-item>
-                                                        </n-collapse> -->
                 <Container orientation="vertical" @drop="onDrop">
                     <Draggable v-for="( item, index) in trends" :key="index">
                         <n-collapse :default-expanded-names="[0]">
@@ -69,7 +53,7 @@
                 </Container>
             </n-scrollbar>
         </div>
-</div>
+    </div>
 </template>
 <script setup>
 import { ref, onMounted } from "vue"
