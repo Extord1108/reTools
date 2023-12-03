@@ -30,13 +30,13 @@
                     <div v-for="(item, index) in messages" :key="index">
                         <div class="chat">
                             <n-grid :cols="48">
-                                <n-gi :span="1"></n-gi>
+                                <n-gi :span="2"></n-gi>
                                 <n-gi :span="4">
                                     <n-avatar class="chat-avatar-dark" :size="35" v-if="item.role == 'user'">YOU</n-avatar>
                                     <n-avatar class="chat-avatar-light" :size="35" v-else>BOT</n-avatar>
                                 </n-gi>
                                 <n-gi :span="1"></n-gi>
-                                <n-gi :span="41">
+                                <n-gi :span="39">
                                     <n-spin :show="item.role == 'assistant' && item.content == ''" size="small">
                                         <div class="chat-content">
                                             <div v-html="markdown.render(item.content)"></div>
@@ -50,7 +50,7 @@
                                         </div>
                                     </n-spin>
                                 </n-gi>
-                                <n-gi :span="1"></n-gi>
+                                <n-gi :span="2"></n-gi>
                             </n-grid>
                         </div>
                     </div>
