@@ -11,7 +11,7 @@
       <Panel :isPanelShow="isPanelShow" :isImgLoaded="isImgLoaded" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
     </div>
     <div id="background">
-      <img v-show="isImgLoaded.value" :src="bgImg" alt="背景图片加载失败" class="bgimg">
+      <img v-show="isImgLoaded.value || bgImg != ''" :src="bgImg" alt="背景图片加载失败" class="bgimg">
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
