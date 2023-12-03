@@ -1,27 +1,26 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: '/',
-    name: 'Tab',
-    component: () => import('../views/Tab.vue'),
+    path: "/",
+    name: "Tab",
+    component: () => import("../views/Tab.vue"),
     meta: {
-      title: 'reTools-新标签页'
-    }
+      title: "exTab-新标签页",
+    },
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
-
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title;
   }
-  next()
+  next();
 });
 
-export default router
+export default router;

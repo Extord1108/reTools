@@ -4,6 +4,10 @@
 
 一个用vue.js写的纯前端的标签页网站
 
+### 演示
+
+[exTab-新标签页](https://tab.extord.space/)
+
 ### 使用
 
 安装依赖：
