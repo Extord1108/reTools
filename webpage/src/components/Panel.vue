@@ -242,7 +242,7 @@ onMounted(() => {
   height: 100%;
   box-shadow: var(--panel-shadow);
   transition: left 0.2s;
-  z-index: 1;
+  z-index: 2;
   background: var(--panel-color);
   backdrop-filter: blur(15px);
 

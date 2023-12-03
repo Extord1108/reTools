@@ -11,13 +11,12 @@
       <Panel :isPanelShow="isPanelShow" :isImgLoaded="isImgLoaded" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
     </div>
     <div id="background">
-      <img style="overflow: hidden;" v-if="wallpaper" :src="wallpaper" alt="">
-      <img v-else :src="bgImg" alt="背景图片加载失败" class="bgimg">
+      <img v-if="isImgLoaded.value" :src="bgImg" alt="背景图片加载失败" class="bgimg">
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
     </div>
-    <div id="content" :style="{ marginTop: onlySearch ? '8rem' : 0, position: 'relative', transition: 'all 0.3s' }">
+    <div id="content" :style="{ marginTop: onlySearch ? '8rem' : 0, height: onlySearch ? 'calc(100vh - 8rem)' : '100vh', position: 'relative', transition: 'all 0.3s' }">
       <Date></Date>
       <Search></Search>
       <n-grid v-if="!onlySearch" :x-gap="24" style="position: absolute;top: 10rem;width:100%;height:calc(100vh - 10rem - 30px);" :cols="48">
@@ -110,6 +109,7 @@ onMounted(() => {
   margin: auto;
   margin-top: 10px;
   margin-left: 10px;
+  z-index: 1;
 }
 
 #avatar:hover {
@@ -148,6 +148,7 @@ onMounted(() => {
 
 #content {
   min-width: 1080px;
+  overflow: hidden;
 }
 
 #date {
