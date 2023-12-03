@@ -89,6 +89,10 @@ const props = defineProps({
   isPanelShow: {
     type: Object,
   },
+  isImgLoaded: {
+    type: Boolean,
+    default: false
+  }
 });
 const message = useMessage();
 const emits = defineEmits(["closePanel", "changeBg"]); //组件传事件
@@ -114,9 +118,6 @@ const close = () => {
 };
 const changeBg = () => {
   loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 5000);
   emits("changeBg");
 };
 
@@ -185,12 +186,16 @@ const avatar = computed(() => {
 //控制抽屉弹出
 watch(props.isPanelShow, (val) => {
   if (val.value) {
-    console.log(panel.value);
     panelPos.left = "0";
   } else {
     panelPos.left = "calc(-20% - 10px)";
   }
 });
+
+watch(props.isImgLoaded, (val) => {
+  console.log(val)
+  loading.value = !val.value
+})
 
 //监听透明度变化
 watch(opacity, (val) => {

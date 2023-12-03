@@ -1,21 +1,18 @@
 <template>
   <div>
     <div id="avatar">
-      <n-avatar round color="#00000000" v-if="!avatar" @click="showPanel" :size="45">
+      <n-avatar round color="#00000000" @click="showPanel" :size="45">
         <n-icon color="#ffffff80">
           <SettingsSharp />
         </n-icon>
       </n-avatar>
-      <n-avatar v-else round :src="avatar" @click="showPanel">
-      </n-avatar>
     </div>
     <div id="panel">
-      <Panel :isPanelShow="isPanelShow" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
+      <Panel :isPanelShow="isPanelShow" :isImgLoaded="isImgLoaded" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
     </div>
     <div id="background">
       <img style="overflow: hidden;" v-if="wallpaper" :src="wallpaper" alt="">
       <img v-else :src="bgImg" alt="背景图片加载失败" class="bgimg">
-      <!-- <div v-else :style="{ backgroundImage: 'url(' + bgImg + ')' }" class="bgimg"></div> -->
       <div>
         <n-el tag="div" id="bg-mask"></n-el>
       </div>
@@ -57,6 +54,7 @@ import { SettingsSharp } from "@vicons/ionicons5";
 import { NAvatar } from "naive-ui";
 import { onMounted, ref, reactive, computed, watch } from "vue";
 import { useStore } from "vuex";
+import axios from "axios";
 import { mediaURL } from "@/utils/http/Service.js"
 import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
@@ -67,35 +65,26 @@ import ChatBox from "../components/Chat/ChatBox.vue";
 const store = useStore();
 const bgImg = ref("");
 const isPanelShow = reactive({ value: false });
+const isImgLoaded = reactive({ value: false });
 
 const showPanel = () => {
   isPanelShow.value = !isPanelShow.value;
 };
 
 const getBgImg = () => {
+  isImgLoaded.value = false;
   //当前屏幕大小
   const width = document.documentElement.clientWidth;
   const height = document.documentElement.clientHeight;
-  //随机数
-  // const random = 1 + Math.floor(Math.random() * 2);
-  // switch (random) {
-  //   case 1:
-  //     bgImg.value = `https://bing.img.run/rand.php`;
-  //     break;
-  //   case 2:
-  //     bgImg.value = `https://source.unsplash.com/${width}x${height}/?nature`;
-  //     break;
-  // }
-  bgImg.value = `https://picsum.photos/${width}/${height}`;
+  // bgImg.value = `https://picsum.photos/${width}/${height}`;
+  axios.get(`https://picsum.photos/${width}/${height}`, {}).then((res) => {
+    bgImg.value = res.request.responseURL
+    isImgLoaded.value = true;
+  }).catch(error => {
+    isImgLoaded.value = true;
+    console.log(error)
+  })
 };
-
-const avatar = computed(() => {
-  if (store.getters.getAvatar != null && store.getters.getAvatar != "") {
-    return mediaURL + store.getters.getAvatar;
-  }
-  else
-    return null;
-})
 
 const wallpaper = computed(() => {
   if (store.getters.getWallpaper != null && store.getters.getWallpaper != "") {
