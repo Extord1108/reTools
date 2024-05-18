@@ -57,7 +57,8 @@
                 </div>
                 <div v-else>
                     <div style="text-align: center;font-size: 1.5rem;color: white;padding-top:calc((50vh - 9rem) - 50px);">
-                        开启一段对话吧！
+                        <!-- 开启一段对话吧！ -->
+                        当前不可用
                     </div>
                 </div>
             </n-scrollbar>
@@ -65,7 +66,7 @@
                 <n-grid :cols="48">
                     <n-gi :span="1"></n-gi>
                     <n-gi :span="46">
-                        <n-input type="textarea" :rows="2" maxlength="50" placeholder="" autosize v-model:value="queryContent" @focus="isQueryIconShow = true"
+                        <n-input disabled="true" type="textarea" :rows="2" maxlength="50" placeholder="" autosize v-model:value="queryContent" @focus="isQueryIconShow = true"
                             @blur="isQueryIconShow = false" @keydown.enter="query" @keyup.enter="queryContent = ''" clearable>
                             <template #suffix v-if="isQueryIconShow">
                                 <n-button :disabled="isReceiving" text size="small" @click="query" color="black">

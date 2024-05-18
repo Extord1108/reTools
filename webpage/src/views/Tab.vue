@@ -8,7 +8,7 @@
       </n-avatar>
     </div>
     <div id="panel">
-      <Panel :isPanelShow="isPanelShow" :isImgLoaded="isImgLoaded" @closePanel="isPanelShow.value = false" @changeBg="getBgImg"></Panel>
+      <Panel :isPanelShow="isPanelShow" :isImgLoaded="isImgLoaded" @closePanel="isPanelShow.value = false" @changeBg="getBgImg" @collectBg="collectBg"></Panel>
     </div>
     <div id="background">
       <img v-show="isImgLoaded.value || bgImg != ''" :src="bgImg" alt="背景图片加载失败" class="bgimg">
@@ -34,7 +34,7 @@
         </n-gi>
         <n-gi :span="12">
           <n-el tag="div" class="box-bg">
-            <ChatBox></ChatBox>
+            <WallPaperBox></WallPaperBox>
           </n-el>
         </n-gi>
         <n-gi :span="1"></n-gi>
@@ -59,6 +59,7 @@ import Date from "@/components/Date.vue";
 import Search from "@/components/Search.vue";
 import CollectionBox from "@/components/collection/CollectionBox.vue";
 import TrendBox from "@/components/Trend/TrendBox.vue";
+import WallPaperBox from "@/components/WallPaper/WallPaperBox.vue"
 import Panel from "@/components/Panel.vue";
 import ChatBox from "../components/Chat/ChatBox.vue";
 const store = useStore();
@@ -84,6 +85,15 @@ const getBgImg = () => {
     console.log(error)
   })
 };
+
+const collectBg = ()=>{
+  let imgUrl = bgImg.value.replace("fastly.","").split('.jpg')[0]
+  let collections = []
+  collections = JSON.parse(localStorage.getItem("wallpaperCollection"))
+  collections.push(imgUrl)
+  localStorage.setItem("wallpaperCollection", JSON.stringify(collections))
+}
+
 
 const wallpaper = computed(() => {
   if (store.getters.getWallpaper != null && store.getters.getWallpaper != "") {

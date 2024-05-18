@@ -43,6 +43,7 @@
           <n-text>壁纸</n-text>
           <n-space align="center">
             <n-button :loading="loading" @click="changeBg" strong type="tertiary">切换壁纸</n-button>
+            <n-button @click="collectBg" strong type="tertiary">收藏壁纸</n-button>
             <!--<n-upload ref="wallpaperUploadRef" accept=".png,.jpg,.jepg" :action="uploadUrl"
               :data="{ type: 'wallpaper' }" :max="1" :show-file-list="false" :default-file-list="fileList"
               :with-credentials="true" @finish="handleUploadFinish" @error="handleUploadError">
@@ -95,7 +96,7 @@ const props = defineProps({
   }
 });
 const message = useMessage();
-const emits = defineEmits(["closePanel", "changeBg"]); //组件传事件
+const emits = defineEmits(["closePanel", "changeBg", "collectBg"]); //组件传事件
 const store = useStore(); //全局变量
 const panel = ref(); //组件实例
 const opacity = ref(0.2);
@@ -119,6 +120,11 @@ const close = () => {
 const changeBg = () => {
   loading.value = true;
   emits("changeBg");
+};
+
+const collectBg = () => {
+  emits("collectBg");
+  message.success("收藏成功")
 };
 
 const uploadPic = (file, fileList) => {
