@@ -141,7 +141,6 @@ const initMap = () => {
             var citySearch = new AMap.CitySearch()
             citySearch.getLocalCity(function (status, result) {
                 if (status === 'complete' && result.info === 'OK') {
-                    console.log(result)
                     AMap.plugin('AMap.Weather', function () {
                         var weather = new AMap.Weather()
                         if (result.adcode == 371200) {
@@ -168,7 +167,7 @@ const initMap = () => {
                     })
                 }
                 else {
-                    var lastinfo = localStorage.getItem("weather")
+                    var lastinfo = JSON.parse(localStorage.getItem("weather"))
                     if (lastinfo)
                         weatherInfo.value = lastinfo
                     else {
