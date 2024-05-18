@@ -71,12 +71,6 @@ const trends = ref([
         content: []
     },
     {
-        name: "36氪",
-        key: "36Ke",
-        show: true,
-        content: []
-    },
-    {
         name: "B站",
         key: "bili",
         show: true,
@@ -94,13 +88,25 @@ const trends = ref([
         show: true,
         content: []
     },
+    {
+        name: "抖音",
+        key: "douyinHot",
+        show: true,
+        content: []
+    },
+    {
+        name: "虎嗅",
+        key: "huXiu",
+        show: true,
+        content: []
+    },
 ])
 
 //获取热榜
 const getTrendofKey = (i) => {
     return new Promise((resolve, reject) => {
         if (trends.value[i].show) {
-            var url = '/vvhan?type=' + trends.value[i].key
+            var url = '/vvhan/' + trends.value[i].key
             url = url.replace("/vvhan", "https://api.vvhan.com/api/hotlist")
             axios.get(url).then(res => {
                 console.log(res)
