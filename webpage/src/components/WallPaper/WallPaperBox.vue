@@ -78,7 +78,6 @@ const uploadWallpaper = () => {
 const deleteWallpaper = (index)=>{
     wallpaperCollection.value.splice(index, 1)
     localStorage.setItem("wallpaperCollection", JSON.stringify(wallpaperCollection.value))
-    updateWallpaper()
 }
 
 onMounted(() => {
